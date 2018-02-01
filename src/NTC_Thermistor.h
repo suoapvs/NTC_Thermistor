@@ -4,7 +4,7 @@
 	a temperature in Celsius, Fahrenheit and Kelvin.
 	
 	Instantiation, for example, to NTC 3950 thermistor:
-		NTCThermistor thermistor(A1, 8000, 100000, 25, 3950);
+		NTC_Thermistor thermistor(A1, 8000, 100000, 25, 3950);
 
 	Read temperature:
 		thermistor.readCelsius();
