@@ -71,7 +71,7 @@ double NTC_Thermistor::readKelvin() {
 */
 double NTC_Thermistor::readResistance() {
 	const double voltage = readVoltage();
-	return this->referenceResistance / (ADC / voltage - 1);
+	return this->referenceResistance / (NTC_THERMISTOR_ADC / voltage - 1);
 }
 
 /**
@@ -82,9 +82,9 @@ double NTC_Thermistor::readResistance() {
 */
 double NTC_Thermistor::readVoltage() {
 	double average = 0;
-	for (int i = 0; i < READINGS_NUMBER; i++) {
+	for (int i = 0; i < NTC_THERMISTOR_READINGS_NUMBER; i++) {
 		average += analogRead(this->pin);
-		delay(TIME_DELAY);
+		delay(NTC_THERMISTOR_TIME_DELAY);
 	}
-	return (average / READINGS_NUMBER);
+	return (average / NTC_THERMISTOR_READINGS_NUMBER);
 }

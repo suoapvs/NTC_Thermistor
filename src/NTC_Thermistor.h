@@ -26,30 +26,30 @@
 /**
 	Min value of Arduino ADC.
 */
-#define ADC_MIN	0
+#define NTC_THERMISTOR_ADC_MIN	0
 
 /**
 	Max value of Arduino ADC.
 */
-#define ADC_MAX	1023
+#define NTC_THERMISTOR_ADC_MAX	1023
 
 /**
 	Values diapason of Arduino ADC
 */
-#define ADC	(ADC_MAX - ADC_MIN)
+#define NTC_THERMISTOR_ADC	(NTC_THERMISTOR_ADC_MAX - NTC_THERMISTOR_ADC_MIN)
 
 /**
 	How many readings are taken to determine a mean voltage. 
 	The more values, the longer a calibration is performed, 
 	but the readings will be more accurate.
 */
-#define READINGS_NUMBER	5
+#define NTC_THERMISTOR_READINGS_NUMBER	5
 
 /**
 	Delay time between a temperature readings 
 	from the temperature sensor (ms).
 */
-#define TIME_DELAY	10
+#define NTC_THERMISTOR_TIME_DELAY	10
 
 /**
 	Kelvin to Celsius conversion:
