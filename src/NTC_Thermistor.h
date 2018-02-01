@@ -11,6 +11,8 @@
 		thermistor.readKelvin();
 		thermistor.readFahrenheit();
 
+	https://github.com/YuriiSalimov/NTC_Thermistor
+	
 	Created by Yurii Salimov, February, 2018.
 	Released into the public domain.
 */

@@ -3,6 +3,8 @@
 	interface for working with a NTC thermistor and reading 
 	a temperature in Celsius, Fahrenheit and Kelvin.
 
+	https://github.com/YuriiSalimov/NTC_Thermistor
+	
 	Created by Yurii Salimov, February, 2018.
 	Released into the public domain.
 */
