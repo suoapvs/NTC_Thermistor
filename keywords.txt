@@ -1,5 +1,5 @@
 ##########################################
-# Syntax Coloring Map For NTCThermistor  #
+# Syntax Coloring Map For NTC_Thermistor #
 ##########################################
 
 ##########################################
