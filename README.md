@@ -27,14 +27,14 @@ R0 - reference resistance.
 ## Methods
 
 ```
-	/**
-		pin - an analog port number to be attached 
-			to the thermistor.
-		R0 - reference resistance.
-		Rn - nominal resistance.
-		Tn - nominal temperature in Celsius.
-		B - b-value of a thermistor.
-	*/
+    /**
+        pin - an analog port number to be attached 
+            to the thermistor.
+        R0 - reference resistance.
+        Rn - nominal resistance.
+        Tn - nominal temperature in Celsius.
+        B - b-value of a thermistor.
+    */
     NTC_Thermistor thermistor(pin, R0, Rn, Tn, B);
     
     // Read a temperature in Celsius.
