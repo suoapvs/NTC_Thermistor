@@ -38,7 +38,7 @@
 /**
 	Values diapason of Arduino ADC
 */
-#define NTC_THERMISTOR_ADC	(NTC_THERMISTOR_ADC_MAX - NTC_THERMISTOR_ADC_MIN)
+#define NTC_THERMISTOR_ADC	((NTC_THERMISTOR_ADC_MAX) - (NTC_THERMISTOR_ADC_MIN))
 
 /**
 	How many readings are taken to determine a mean voltage. 
@@ -57,19 +57,19 @@
 	Kelvin to Celsius conversion:
 		C = K - 273.15
 */
-#define KELVINS_TO_CELSIUS(K) ((K - 273.15))
+#define KELVINS_TO_CELSIUS(K) (((K) - 273.15))
 
 /**
 	Celsius to Kelvin conversion:
 		K = C + 273.15
 */
-#define CELSIUS_TO_KELVINS(C) ((C + 273.15))
+#define CELSIUS_TO_KELVINS(C) (((C) + 273.15))
 
 /**
 	Celsius to Fahrenheit conversion:
 		F = C * 9 / 5 + 32
 */
-#define CELSIUS_TO_FAHRENHEIT(C) ((C * 9.0 / 5.0 + 32))
+#define CELSIUS_TO_FAHRENHEIT(C) (((C) * 9.0 / 5.0 + 32))
 
 /**
 	Kelvin to Fahrenheit conversion:
