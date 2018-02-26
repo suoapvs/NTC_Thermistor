@@ -1,5 +1,5 @@
 /**
-	The class implements a set of methods of the NTCThermistor.h 
+	The class implements a set of methods of the NTC_Thermistor.h 
 	interface for working with a NTC thermistor and reading 
 	a temperature in Celsius, Fahrenheit and Kelvin.
 

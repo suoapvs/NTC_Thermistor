@@ -1,5 +1,5 @@
 /**
-	NTCThermoSensor.h - The interface describes a set of methods 
+	NTC_Thermistor.h - The interface describes a set of methods 
 	for working with a NTC thermistor and reading 
 	a temperature in Celsius, Fahrenheit and Kelvin.
 	
