@@ -20,7 +20,7 @@ then a pull-down resistor, and into ground. To measure the temperature pull a
 line off the junction of the thermistor and the resistor, and into an analog pin 
 (A1 here).
 
-![Circuit Diagram](Thermistor-arduino.png.png)
+![Circuit Diagram](CircuitDiagram.png)
 
 R0 - reference resistance.
 
