@@ -43,8 +43,8 @@ double NTC_Thermistor::readCelsius() {
 	@return temperature in Fahrenheit.
 */
 double NTC_Thermistor::readFahrenheit() {
-	const double celsius = readKelvin();
-	return KELVINS_TO_FAHRENHEIT(celsius);
+	const double kelvin = readKelvin();
+	return KELVINS_TO_FAHRENHEIT(kelvin);
 }
 
 double NTC_Thermistor::readFarenheit() {
