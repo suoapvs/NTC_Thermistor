@@ -19,7 +19,8 @@ Connect to the analog side of an Arduino Uno. Run 5V through the thermistor, the
 
 ## Methods
 
-```
+```cpp
+    // Instantiation:
     /**
         pin - an analog port number to be attached to the thermistor.
         R0 - reference resistance.
@@ -29,16 +30,31 @@ Connect to the analog side of an Arduino Uno. Run 5V through the thermistor, the
     */
     NTC_Thermistor thermistor(pin, R0, Rn, Tn, B);
 
+    // or
+    /**
+    	READINGS_NUMBER - How many readings are taken to determine
+        a mean temperature. The more values, the longer a calibration
+        is performed, but the readings will be more accurate.
+    	DELAY_TIME - Delay time between a temperature readings (ms).
+    */
+    NTC_Thermistor thermistor(
+		pin, R0, Rn, Tn, B,
+		READINGS_NUMBER, DELAY_TIME
+	);
+
     // Read a temperature in Celsius.
-    thermistor.readCelsius();
-
+    double celsius = thermistor.readCelsius();
     // Read a temperature in Kelvin.
-    thermistor.readKelvin();
-
+    double Kelvin = thermistor.readKelvin();
     // Read a temperature in Fahrenheit.
-    thermistor.readFahrenheit();
+    double fahrenheit = thermistor.readFahrenheit();
     // For older devices.
-    thermistor.readFarenheit();
+    double farenheit = thermistor.readFarenheit();
+
+    // Sets a new readings number.
+    thermistor.setReadingsNumber(READINGS_NUMBER);
+    // Sets a new delay time.
+    thermistor.setDelayTime(DELAY_TIME);
 
 ```
 
