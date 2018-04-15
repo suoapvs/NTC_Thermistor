@@ -2,17 +2,31 @@
 	NTC_Thermistor.h - The interface describes a set of methods 
 	for working with a NTC thermistor and reading 
 	a temperature in Celsius, Fahrenheit and Kelvin.
-	
+
 	Instantiation, for example, to NTC 3950 thermistor:
 		NTC_Thermistor thermistor(A1, 8000, 100000, 25, 3950);
+		or
+		NTC_Thermistor thermistor(
+			A1, 8000, 100000, 25, 3950,
+			READINGS_NUMBER, DELAY_TIME
+		);
+
+		Where,
+		READINGS_NUMBER - How many readings are taken 
+		to determine a mean temperature. The more values, 
+		the longer a calibration is performed, but the readings 
+		will be more accurate.
+
+		DELAY_TIME - Delay time between a temperature readings 
+		from the temperature sensor (ms).
 
 	Read temperature:
-		thermistor.readCelsius();
-		thermistor.readKelvin();
-		thermistor.readFahrenheit();
+		double celsius = thermocouple.readCelsius();
+		double kelvin = thermocouple.readKelvin();
+		double fahrenheit = thermocouple.readFahrenheit();
 
 	https://github.com/YuriiSalimov/NTC_Thermistor
-	
+
 	Created by Yurii Salimov, February, 2018.
 	Released into the public domain.
 */
@@ -20,10 +34,10 @@
 #define NTC_THERMISTOR_H
 
 #if defined(ARDUINO) && (ARDUINO >= 100)
-  #include <Arduino.h>
+	#include <Arduino.h>
 #else
-  #include <WProgram.h>
-#endif 
+	#include <WProgram.h>
+#endif
 
 /**
 	Min value of Arduino ADC.
@@ -40,42 +54,8 @@
 */
 #define NTC_THERMISTOR_ADC	((NTC_THERMISTOR_ADC_MAX) - (NTC_THERMISTOR_ADC_MIN))
 
-/**
-	How many readings are taken to determine a mean voltage. 
-	The more values, the longer a calibration is performed, 
-	but the readings will be more accurate.
-*/
-#define NTC_THERMISTOR_READINGS_NUMBER	5
-
-/**
-	Delay time between a temperature readings 
-	from the temperature sensor (ms).
-*/
-#define NTC_THERMISTOR_TIME_DELAY	10
-
-/**
-	Kelvin to Celsius conversion:
-		C = K - 273.15
-*/
-#define KELVINS_TO_CELSIUS(K) (((K) - 273.15))
-
-/**
-	Celsius to Kelvin conversion:
-		K = C + 273.15
-*/
-#define CELSIUS_TO_KELVINS(C) (((C) + 273.15))
-
-/**
-	Celsius to Fahrenheit conversion:
-		F = C * 9 / 5 + 32
-*/
-#define CELSIUS_TO_FAHRENHEIT(C) (((C) * 9.0 / 5.0 + 32))
-
-/**
-	Kelvin to Fahrenheit conversion:
-	F = C * 9 / 5 + 32 = (K - 273.15) * 9 / 5 + 32
-*/
-#define KELVINS_TO_FAHRENHEIT(K) (CELSIUS_TO_FAHRENHEIT(KELVINS_TO_CELSIUS(K)))
+#define NTC_DEFAULT_READINGS_NUMBER	5
+#define NTC_DEFAULT_DELAY_TIME	10
 
 class NTC_Thermistor final {
 
@@ -105,6 +85,9 @@ class NTC_Thermistor final {
 		*/
 		double bValue = 0;
 
+		volatile int readingsNumber = 0;
+		volatile long delayTime = 0;
+
 	public:
 		/**
 			Constructor.
@@ -124,31 +107,66 @@ class NTC_Thermistor final {
 		);
 
 		/**
-			Reads a temperature in Celsius.
-			@return temperature in Celsius.
+			Constructor.
+			@param pin - an analog port number to be attached 
+				to the thermistor.
+			@param referenceResistance - reference resistance.
+			@param nominalResistance - nominal resistance.
+			@param nominalTemperature - nominal temperature in Celsius.
+			@param bValue - b-value of a thermistor.
+			@param readingsNumber - how many readings are 
+				taken to determine a mean temperature.
+			@param delayTime - delay time between 
+				a temperature readings (ms).
+		*/
+		NTC_Thermistor(
+			const int pin,
+			const double referenceResistance,
+			const double nominalResistance,
+			const double nominalTemperatureCelsius,
+			const double bValue,
+			const int readingsNumber,
+			const long delayTime
+		);
+
+		/**
+			Reads and returns a temperature in Celsius 
+			from the thermocouple.
 		*/
 		double readCelsius();
 
 		/**
-			Reads a temperature in Kelvin.
-			@return temperature in Kelvin.
+			Returns a temperature in Kelvin.
 		*/
 		double readKelvin();
-		
+
 		/**
-			Reads a temperature in Fahrenheit.
-			@return temperature in Fahrenheit.
+			Returns a temperature in Fahrenheit.
 		*/
 		double readFahrenheit();
 
 		/**
 			Returns a temperature in Fahrenheit.
 			(For older devices.)
-			@return temperature in Fahrenheit.
 		*/
-		 double readFarenheit();
+		double readFarenheit();
+
+		/**
+			Sets a new readings number.
+		*/
+		void setReadingsNumber(const int newReadingsNumber);
+
+		/**
+			Sets a new delay time.
+		*/
+		void setDelayTime(const long newDelayTime);
 
 	private:
+		/**
+			Initialization of module.
+		*/
+		void init();
+
 		/**
 			Calculates a resistance of the thermistor:
 			@return resistance of the thermistor sensor.
@@ -160,6 +178,34 @@ class NTC_Thermistor final {
 			@return thermistor voltage.
 		*/
 		double readVoltage();
+
+		/**
+			Resistance to Kelvin conversion:
+			1/K = 1/K0 + 1/B * ln(R/R0)
+		*/
+		double resistanceToKelvins(const double resistance);
+
+		/**
+			Celsius to Kelvin conversion:
+			K = C + 273.15
+		*/
+		double celsiusToKelvins(const double celsius);
+
+		/**
+			Kelvin to Celsius conversion:
+			C = K - 273.15
+		*/
+		double kelvinsToCelsius(const double kelvins);
+
+		/**
+			Celsius to Fahrenheit conversion:
+			F = C * 9 / 5 + 32
+		*/
+		double celsiusToFahrenheit(const double celsius);
+
+		void sleep();
+
+		template <typename A, typename B> A validate(const A data, const B min);
 };
 
 #endif

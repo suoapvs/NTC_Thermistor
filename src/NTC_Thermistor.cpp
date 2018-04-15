@@ -16,13 +16,37 @@ NTC_Thermistor::NTC_Thermistor(
 	const double nominalResistance,
 	const double nominalTemperatureCelsius,
 	const double bValue
+) : NTC_Thermistor(
+		pin, referenceResistance, 
+		nominalResistance,
+		nominalTemperatureCelsius, 
+		bValue,
+		NTC_DEFAULT_READINGS_NUMBER,
+		NTC_DEFAULT_DELAY_TIME
+) {
+}
+
+NTC_Thermistor::NTC_Thermistor(
+	const int pin,
+	const double referenceResistance,
+	const double nominalResistance,
+	const double nominalTemperatureCelsius,
+	const double bValue,
+	const int readingsNumber,
+	const long delayTime
 ) {
 	this->pin = pin;
 	this->referenceResistance = referenceResistance;
 	this->nominalResistance = nominalResistance;
-	this->nominalTemperature = CELSIUS_TO_KELVINS(nominalTemperatureCelsius);
+	this->nominalTemperature = celsiusToKelvins(nominalTemperatureCelsius);
 	this->bValue = bValue;
-	pinMode(this->pin, INPUT_PULLUP);
+	setReadingsNumber(readingsNumber);
+	setDelayTime(delayTime);
+	init();
+}
+
+void NTC_Thermistor::init() {
+	pinMode(this->pin, INPUT_PULLUP);	
 }
 
 /**
@@ -33,18 +57,18 @@ NTC_Thermistor::NTC_Thermistor(
 */
 double NTC_Thermistor::readCelsius() {
 	const double kelvin = readKelvin();
-	return KELVINS_TO_CELSIUS(kelvin);
+	return kelvinsToCelsius(kelvin);
 }
 
 /**
 	Returns a temperature in Fahrenheit.
-	Reads a temperature in Kelvin, 
+	Reads a temperature in Celsius, 
 	converts in Fahrenheit and return it.
 	@return temperature in Fahrenheit.
 */
 double NTC_Thermistor::readFahrenheit() {
-	const double kelvin = readKelvin();
-	return KELVINS_TO_FAHRENHEIT(kelvin);
+	const double celsius = readCelsius();
+	return celsiusToFahrenheit(celsius);
 }
 
 double NTC_Thermistor::readFarenheit() {
@@ -54,15 +78,12 @@ double NTC_Thermistor::readFarenheit() {
 /**
 	Returns a temperature in Kelvin.
 	Reads the thermistor resistance, 
-	converts in Kelvin and return it:
-	1/K = 1/K0 + 1/B * ln(R/R0)
+	converts in Kelvin and return it.
 	@return temperature in Kelvin.
 */
 double NTC_Thermistor::readKelvin() {
 	const double resistance = readResistance();
-	const double inverseKelvin = 1.0 / this->nominalTemperature +
-		1.0 / this->bValue * log(resistance / this->nominalResistance);
-	return (1.0 / inverseKelvin);
+	return resistanceToKelvins(resistance);
 }
 
 /**
@@ -83,10 +104,49 @@ double NTC_Thermistor::readResistance() {
 	@return average thermistor voltage.
 */
 double NTC_Thermistor::readVoltage() {
-	double average = 0;
-	for (int i = 0; i < NTC_THERMISTOR_READINGS_NUMBER; i++) {
-		average += analogRead(this->pin);
-		delay(NTC_THERMISTOR_TIME_DELAY);
+	double analogSum = 0;
+	for (int i = 0; i < this->readingsNumber; i++) {
+		analogSum += analogRead(this->pin);
+		sleep();
 	}
-	return (average / NTC_THERMISTOR_READINGS_NUMBER);
+	return (analogSum / this->readingsNumber);
+}
+
+void NTC_Thermistor::sleep() {
+	delay(this->delayTime);
+}
+
+void NTC_Thermistor::setReadingsNumber(const int newReadingsNumber) {
+	this->readingsNumber = validate(readingsNumber, NTC_DEFAULT_READINGS_NUMBER);
+}
+
+void NTC_Thermistor::setDelayTime(const long newDelayTime) {
+	this->delayTime = validate(newDelayTime, NTC_DEFAULT_DELAY_TIME);
+}
+
+template <typename A, typename B> 
+A NTC_Thermistor::validate(const A data, const B min) {
+	if (data > 0) {
+		return data;
+	} else {
+		return min;
+	}
+}
+
+double NTC_Thermistor::resistanceToKelvins(const double resistance) {
+	const double inverseKelvin = 1.0 / this->nominalTemperature +
+		1.0 / this->bValue * log(resistance / this->nominalResistance);
+	return (1.0 / inverseKelvin);
+}
+
+double NTC_Thermistor::celsiusToKelvins(const double celsius) {
+	return (celsius + 273.15);
+}
+
+double NTC_Thermistor::kelvinsToCelsius(const double kelvins) {
+	return (kelvins - 273.15);
+}
+
+double NTC_Thermistor::celsiusToFahrenheit(const double celsius) {
+	return (celsius * 9.0 / 5.0 + 32);
 }
