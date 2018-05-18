@@ -1,10 +1,10 @@
 /**
-	The class implements a set of methods of the NTC_Thermistor.h 
-	interface for working with a NTC thermistor and reading 
+	The class implements a set of methods of the NTC_Thermistor.h
+	interface for working with a NTC thermistor and reading
 	a temperature in Celsius, Fahrenheit and Kelvin.
 
 	https://github.com/YuriiSalimov/NTC_Thermistor
-	
+
 	Created by Yurii Salimov, February, 2018.
 	Released into the public domain.
 */
@@ -17,9 +17,9 @@ NTC_Thermistor::NTC_Thermistor(
 	const double nominalTemperatureCelsius,
 	const double bValue
 ) : NTC_Thermistor(
-		pin, referenceResistance, 
+		pin, referenceResistance,
 		nominalResistance,
-		nominalTemperatureCelsius, 
+		nominalTemperatureCelsius,
 		bValue,
 		NTC_DEFAULT_READINGS_NUMBER,
 		NTC_DEFAULT_DELAY_TIME
@@ -46,29 +46,27 @@ NTC_Thermistor::NTC_Thermistor(
 }
 
 void NTC_Thermistor::init() {
-	pinMode(this->pin, INPUT_PULLUP);	
+	pinMode(this->pin, INPUT_PULLUP);
 }
 
 /**
 	Reads and returns a temperature in Celsius.
-	Reads the temperature in Kelvin, 
+	Reads the temperature in Kelvin,
 	converts in Celsius and return it.
 	@return temperature in Celsius.
 */
 double NTC_Thermistor::readCelsius() {
-	const double kelvin = readKelvin();
-	return kelvinsToCelsius(kelvin);
+	return kelvinsToCelsius(readKelvin());
 }
 
 /**
 	Returns a temperature in Fahrenheit.
-	Reads a temperature in Celsius, 
+	Reads a temperature in Celsius,
 	converts in Fahrenheit and return it.
 	@return temperature in Fahrenheit.
 */
 double NTC_Thermistor::readFahrenheit() {
-	const double celsius = readCelsius();
-	return celsiusToFahrenheit(celsius);
+	return celsiusToFahrenheit(readCelsius());
 }
 
 double NTC_Thermistor::readFarenheit() {
@@ -77,13 +75,12 @@ double NTC_Thermistor::readFarenheit() {
 
 /**
 	Returns a temperature in Kelvin.
-	Reads the thermistor resistance, 
+	Reads the thermistor resistance,
 	converts in Kelvin and return it.
 	@return temperature in Kelvin.
 */
 double NTC_Thermistor::readKelvin() {
-	const double resistance = readResistance();
-	return resistanceToKelvins(resistance);
+	return resistanceToKelvins(readResistance());
 }
 
 /**
@@ -99,7 +96,7 @@ double NTC_Thermistor::readResistance() {
 
 /**
 	Reads a voltage from the thermistor analog port.
-	Takes READINGS_NUMBER samples in a row, 
+	Takes READINGS_NUMBER samples in a row,
 	with a slight delay.
 	@return average thermistor voltage.
 */
@@ -124,13 +121,9 @@ void NTC_Thermistor::setDelayTime(const long newDelayTime) {
 	this->delayTime = validate(newDelayTime, NTC_DEFAULT_DELAY_TIME);
 }
 
-template <typename A, typename B> 
+template <typename A, typename B>
 A NTC_Thermistor::validate(const A data, const B min) {
-	if (data > 0) {
-		return data;
-	} else {
-		return min;
-	}
+	return (data > 0) ? data : min;
 }
 
 double NTC_Thermistor::resistanceToKelvins(const double resistance) {

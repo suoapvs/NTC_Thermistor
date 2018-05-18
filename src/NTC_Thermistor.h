@@ -1,6 +1,6 @@
 /**
-	NTC_Thermistor.h - The interface describes a set of methods 
-	for working with a NTC thermistor and reading 
+	NTC_Thermistor.h - The interface describes a set of methods
+	for working with a NTC thermistor and reading
 	a temperature in Celsius, Fahrenheit and Kelvin.
 
 	Instantiation, for example, to NTC 3950 thermistor:
@@ -12,12 +12,12 @@
 		);
 
 		Where,
-		READINGS_NUMBER - How many readings are taken 
-		to determine a mean temperature. The more values, 
-		the longer a calibration is performed, but the readings 
+		READINGS_NUMBER - How many readings are taken
+		to determine a mean temperature. The more values,
+		the longer a calibration is performed, but the readings
 		will be more accurate.
 
-		DELAY_TIME - Delay time between a temperature readings 
+		DELAY_TIME - Delay time between a temperature readings
 		from the temperature sensor (ms).
 
 	Read temperature:
@@ -91,7 +91,7 @@ class NTC_Thermistor final {
 	public:
 		/**
 			Constructor.
-			@param pin - an analog port number to be attached 
+			@param pin - an analog port number to be attached
 				to the thermistor.
 			@param referenceResistance - reference resistance.
 			@param nominalResistance - nominal resistance.
@@ -108,15 +108,15 @@ class NTC_Thermistor final {
 
 		/**
 			Constructor.
-			@param pin - an analog port number to be attached 
+			@param pin - an analog port number to be attached
 				to the thermistor.
 			@param referenceResistance - reference resistance.
 			@param nominalResistance - nominal resistance.
 			@param nominalTemperature - nominal temperature in Celsius.
 			@param bValue - b-value of a thermistor.
-			@param readingsNumber - how many readings are 
+			@param readingsNumber - how many readings are
 				taken to determine a mean temperature.
-			@param delayTime - delay time between 
+			@param delayTime - delay time between
 				a temperature readings (ms).
 		*/
 		NTC_Thermistor(
@@ -130,7 +130,7 @@ class NTC_Thermistor final {
 		);
 
 		/**
-			Reads and returns a temperature in Celsius 
+			Reads and returns a temperature in Celsius
 			from the thermocouple.
 		*/
 		double readCelsius();
