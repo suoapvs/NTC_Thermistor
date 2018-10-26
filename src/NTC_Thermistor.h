@@ -25,6 +25,11 @@
 		double kelvin = thermocouple.readKelvin();
 		double fahrenheit = thermocouple.readFahrenheit();
 
+	v.1.1.2:
+	- new celsius to fahrenheit conversion;
+	- Kelvin to Fahrenheit conversion;
+	- optimized calls of private methods.
+
 	https://github.com/YuriiSalimov/NTC_Thermistor
 
 	Created by Yurii Salimov, February, 2018.
@@ -60,33 +65,13 @@
 class NTC_Thermistor final {
 
 	private:
-		/**
-			Port number to be attached to the sensor.
-		*/
-		int pin = 0;
-
-		/**
-			Reference resistance of the thermistor.
-		*/
-		double referenceResistance = 0;
-
-		/**
-			Nominal resistance of the thermistor.
-		*/
-		double nominalResistance = 0;
-
-		/**
-			Nominal temperature of the thermistor.
-		*/
-		double nominalTemperature = 0;
-
-		/**
-			B-value of a thermistor.
-		*/
-		double bValue = 0;
-
-		volatile int readingsNumber = 0;
-		volatile long delayTime = 0;
+		int pin; // an analog port.
+		double referenceResistance;
+		double nominalResistance;
+		double nominalTemperature; // in Celsius.
+		double bValue;
+		volatile int readingsNumber;
+		volatile long delayTime;
 
 	public:
 		/**
@@ -165,47 +150,58 @@ class NTC_Thermistor final {
 		/**
 			Initialization of module.
 		*/
-		void init();
+		inline void init();
 
 		/**
 			Calculates a resistance of the thermistor:
-			@return resistance of the thermistor sensor.
 		*/
-		double readResistance();
+		inline double readResistance();
 
 		/**
 			Reads a voltage from the thermistor.
-			@return thermistor voltage.
 		*/
-		double readVoltage();
+		inline double readVoltage();
 
 		/**
 			Resistance to Kelvin conversion:
 			1/K = 1/K0 + 1/B * ln(R/R0)
 		*/
-		double resistanceToKelvins(const double resistance);
+		inline double resistanceToKelvins(const double resistance);
 
 		/**
 			Celsius to Kelvin conversion:
 			K = C + 273.15
 		*/
-		double celsiusToKelvins(const double celsius);
+		inline double celsiusToKelvins(const double celsius);
 
 		/**
 			Kelvin to Celsius conversion:
 			C = K - 273.15
 		*/
-		double kelvinsToCelsius(const double kelvins);
+		inline double kelvinsToCelsius(const double kelvins);
 
 		/**
 			Celsius to Fahrenheit conversion:
-			F = C * 9 / 5 + 32
+			F = C * 1.8 + 32
 		*/
-		double celsiusToFahrenheit(const double celsius);
+		inline double celsiusToFahrenheit(const double celsius);
 
-		void sleep();
+		/**
+			Kelvin to Fahrenheit conversion:
+			F = (K - 273.15) * 1.8 + 32
+		*/
+		inline double kelvinsToFahrenheit(const double kelvins);
 
-		template <typename A, typename B> A validate(const A data, const B min);
+		inline void sleep();
+
+		/**
+			Returns the data if it is valid,
+			otherwise returns alternative data.
+		*/
+		template <typename A, typename B> A validate(
+			const A data,
+			const B alternative
+		);
 };
 
 #endif

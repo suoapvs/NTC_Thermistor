@@ -45,7 +45,7 @@ NTC_Thermistor::NTC_Thermistor(
 	init();
 }
 
-void NTC_Thermistor::init() {
+inline void NTC_Thermistor::init() {
 	pinMode(this->pin, INPUT_PULLUP);
 }
 
@@ -66,7 +66,7 @@ double NTC_Thermistor::readCelsius() {
 	@return temperature in Fahrenheit.
 */
 double NTC_Thermistor::readFahrenheit() {
-	return celsiusToFahrenheit(readCelsius());
+	return kelvinsToFahrenheit(readKelvin());
 }
 
 double NTC_Thermistor::readFarenheit() {
@@ -83,15 +83,20 @@ double NTC_Thermistor::readKelvin() {
 	return resistanceToKelvins(readResistance());
 }
 
+inline double NTC_Thermistor::resistanceToKelvins(const double resistance) {
+	const double inverseKelvin = 1.0 / this->nominalTemperature +
+		1.0 / this->bValue * log(resistance / this->nominalResistance);
+	return (1.0 / (inverseKelvin));
+}
+
 /**
 	Calculates a resistance of the thermistor:
 	Converts a value of the thermistor sensor into a resistance.
 	R = R0 / (ADC / V - 1);
 	@return resistance of the thermistor sensor.
 */
-double NTC_Thermistor::readResistance() {
-	const double voltage = readVoltage();
-	return this->referenceResistance / (NTC_THERMISTOR_ADC / voltage - 1);
+inline double NTC_Thermistor::readResistance() {
+	return this->referenceResistance / (NTC_THERMISTOR_ADC / readVoltage() - 1);
 }
 
 /**
@@ -100,7 +105,7 @@ double NTC_Thermistor::readResistance() {
 	with a slight delay.
 	@return average thermistor voltage.
 */
-double NTC_Thermistor::readVoltage() {
+inline double NTC_Thermistor::readVoltage() {
 	double analogSum = 0;
 	for (int i = 0; i < this->readingsNumber; i++) {
 		analogSum += analogRead(this->pin);
@@ -109,7 +114,7 @@ double NTC_Thermistor::readVoltage() {
 	return (analogSum / this->readingsNumber);
 }
 
-void NTC_Thermistor::sleep() {
+inline void NTC_Thermistor::sleep() {
 	delay(this->delayTime);
 }
 
@@ -121,25 +126,34 @@ void NTC_Thermistor::setDelayTime(const long newDelayTime) {
 	this->delayTime = validate(newDelayTime, NTC_DEFAULT_DELAY_TIME);
 }
 
+/**
+	Returns the data if it is positive,
+	otherwise returns alternative data.
+*/
 template <typename A, typename B>
 A NTC_Thermistor::validate(const A data, const B min) {
 	return (data > 0) ? data : min;
 }
 
-double NTC_Thermistor::resistanceToKelvins(const double resistance) {
-	const double inverseKelvin = 1.0 / this->nominalTemperature +
-		1.0 / this->bValue * log(resistance / this->nominalResistance);
-	return (1.0 / inverseKelvin);
-}
-
-double NTC_Thermistor::celsiusToKelvins(const double celsius) {
+inline double NTC_Thermistor::celsiusToKelvins(const double celsius) {
 	return (celsius + 273.15);
 }
 
-double NTC_Thermistor::kelvinsToCelsius(const double kelvins) {
+inline double NTC_Thermistor::kelvinsToCelsius(const double kelvins) {
 	return (kelvins - 273.15);
 }
 
-double NTC_Thermistor::celsiusToFahrenheit(const double celsius) {
-	return (celsius * 9.0 / 5.0 + 32);
+inline double NTC_Thermistor::celsiusToFahrenheit(const double celsius) {
+	return (celsius * 1.8 + 32);
+}
+
+/**
+	Kelvin to Fahrenheit conversion:
+	F = (K - 273.15) * 1.8 + 32
+	C = (K - 273.15) - celsius.
+	F = C * 1.8 + 32 - Celsius to Fahrenheit conversion.
+	=> Kelvin convert to Celsius, then Celsius to Fahrenheit.
+*/
+inline double NTC_Thermistor::kelvinsToFahrenheit(const double kelvins) {
+	return celsiusToFahrenheit(kelvinsToCelsius(kelvins));
 }
