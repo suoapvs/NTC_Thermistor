@@ -26,8 +26,8 @@
 		double fahrenheit = thermocouple.readFahrenheit();
 
 	v.1.1.2:
-	- new celsius to fahrenheit conversion;
-	- Kelvin to Fahrenheit conversion;
+	- updated conversion from celsius to fahrenheit;
+	- added conversion from kelvin to fahrenheit;
 	- optimized calls of private methods.
 
 	https://github.com/YuriiSalimov/NTC_Thermistor
