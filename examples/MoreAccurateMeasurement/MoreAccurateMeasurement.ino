@@ -28,7 +28,7 @@
    Delay time between a temperature readings
    from the temperature sensor (ms).
 */
-#define DELAY_TIME  100
+#define DELAY_TIME  20
 
 NTC_Thermistor* thermistor = NULL;
 
@@ -66,4 +66,3 @@ void loop() {
   Serial.println(String(fahrenheit) + " F");
   delay(500);
 }
-
