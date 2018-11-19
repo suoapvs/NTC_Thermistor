@@ -30,6 +30,9 @@
 	- added conversion from kelvin to fahrenheit;
 	- optimized calls of private methods.
 
+	v.1.1.3:
+	- Fixed bug in setReadingsNumber() method.
+
 	https://github.com/YuriiSalimov/NTC_Thermistor
 
 	Created by Yurii Salimov, February, 2018.
@@ -84,11 +87,11 @@ class NTC_Thermistor final {
 			@param bValue - b-value of a thermistor.
 		*/
 		NTC_Thermistor(
-			const int pin,
-			const double referenceResistance,
-			const double nominalResistance,
-			const double nominalTemperatureCelsius,
-			const double bValue
+			int pin,
+			double referenceResistance,
+			double nominalResistance,
+			double nominalTemperatureCelsius,
+			double bValue
 		);
 
 		/**
@@ -105,13 +108,13 @@ class NTC_Thermistor final {
 				a temperature readings (ms).
 		*/
 		NTC_Thermistor(
-			const int pin,
-			const double referenceResistance,
-			const double nominalResistance,
-			const double nominalTemperatureCelsius,
-			const double bValue,
-			const int readingsNumber,
-			const long delayTime
+			int pin,
+			double referenceResistance,
+			double nominalResistance,
+			double nominalTemperatureCelsius,
+			double bValue,
+			int readingsNumber,
+			long delayTime
 		);
 
 		/**
@@ -131,20 +134,20 @@ class NTC_Thermistor final {
 		double readFahrenheit();
 
 		/**
-			Returns a temperature in Fahrenheit.
-			(For older devices.)
+			Returns a temperature in Fahrenheit
+			(For older devices).
 		*/
 		double readFarenheit();
 
 		/**
 			Sets a new readings number.
 		*/
-		void setReadingsNumber(const int newReadingsNumber);
+		void setReadingsNumber(int newReadingsNumber);
 
 		/**
 			Sets a new delay time.
 		*/
-		void setDelayTime(const long newDelayTime);
+		void setDelayTime(long newDelayTime);
 
 	private:
 		/**
@@ -166,31 +169,31 @@ class NTC_Thermistor final {
 			Resistance to Kelvin conversion:
 			1/K = 1/K0 + 1/B * ln(R/R0)
 		*/
-		inline double resistanceToKelvins(const double resistance);
+		inline double resistanceToKelvins(double resistance);
 
 		/**
 			Celsius to Kelvin conversion:
 			K = C + 273.15
 		*/
-		inline double celsiusToKelvins(const double celsius);
+		inline double celsiusToKelvins(double celsius);
 
 		/**
 			Kelvin to Celsius conversion:
 			C = K - 273.15
 		*/
-		inline double kelvinsToCelsius(const double kelvins);
+		inline double kelvinsToCelsius(double kelvins);
 
 		/**
 			Celsius to Fahrenheit conversion:
 			F = C * 1.8 + 32
 		*/
-		inline double celsiusToFahrenheit(const double celsius);
+		inline double celsiusToFahrenheit(double celsius);
 
 		/**
 			Kelvin to Fahrenheit conversion:
 			F = (K - 273.15) * 1.8 + 32
 		*/
-		inline double kelvinsToFahrenheit(const double kelvins);
+		inline double kelvinsToFahrenheit(double kelvins);
 
 		inline void sleep();
 
@@ -198,10 +201,7 @@ class NTC_Thermistor final {
 			Returns the data if it is valid,
 			otherwise returns alternative data.
 		*/
-		template <typename A, typename B> A validate(
-			const A data,
-			const B alternative
-		);
+		template <typename A, typename B> A validate(A data, B alternative);
 };
 
 #endif

@@ -119,7 +119,7 @@ inline void NTC_Thermistor::sleep() {
 }
 
 void NTC_Thermistor::setReadingsNumber(const int newReadingsNumber) {
-	this->readingsNumber = validate(readingsNumber, NTC_DEFAULT_READINGS_NUMBER);
+	this->readingsNumber = validate(newReadingsNumber, NTC_DEFAULT_READINGS_NUMBER);
 }
 
 void NTC_Thermistor::setDelayTime(const long newDelayTime) {
@@ -131,8 +131,8 @@ void NTC_Thermistor::setDelayTime(const long newDelayTime) {
 	otherwise returns alternative data.
 */
 template <typename A, typename B>
-A NTC_Thermistor::validate(const A data, const B min) {
-	return (data > 0) ? data : min;
+A NTC_Thermistor::validate(const A data, const B alternative) {
+	return (data > 0) ? data : alternative;
 }
 
 inline double NTC_Thermistor::celsiusToKelvins(const double celsius) {
