@@ -33,6 +33,9 @@
 	v.1.1.3:
 	- Fixed bug in setReadingsNumber() method.
 
+	v.1.1.4:
+	- Removed deprecated init() method.
+
 	https://github.com/YuriiSalimov/NTC_Thermistor
 
 	Created by Yurii Salimov, February, 2018.
@@ -150,11 +153,6 @@ class NTC_Thermistor final {
 		void setDelayTime(long newDelayTime);
 
 	private:
-		/**
-			Initialization of module.
-		*/
-		inline void init();
-
 		/**
 			Calculates a resistance of the thermistor:
 		*/
