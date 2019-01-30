@@ -58,5 +58,6 @@ Connect to the analog side of an Arduino Uno. Run 5V through the thermistor, the
 
 ```
 
-Created by [Yurii Salimov](mailto:yuriy.alex.salimov@gmail.com).
+See [examples](/examples)...
 
+Created by Yurii Salimov.
