@@ -76,11 +76,11 @@ class NTC_Thermistor final {
 		double bValue;
 		unsigned int readingsNumber;
 		long delayTime;
-    bool useDelay;
-    double *analogBuffer;
-    unsigned int bufferId;
-    long lastRead;
-    bool enableRead;
+		bool useDelay;
+		double *analogBuffer;
+		unsigned int bufferId;
+		long lastRead;
+		bool enableRead;
 
 
 	public:
@@ -137,7 +137,7 @@ class NTC_Thermistor final {
 			@param delayTime - delay time between
 				a temperature readings (ms).
 			@param enableDelay - enable delay interruption
-        or disabled to use timed buffer without interruption - Update() function
+				or disabled to use timed buffer without interruption - Update() function
 				must be called in loop cycle.
 
 		*/
@@ -149,7 +149,7 @@ class NTC_Thermistor final {
 			double bValue,
 			int readingsNumber,
 			long delayTime,
-      bool enableDelay
+			bool enableDelay
 		);
 
 		/**
@@ -185,34 +185,34 @@ class NTC_Thermistor final {
 		void setDelayTime(long newDelayTime);
 
 
-    /*
-      Set enable/disable delay interruption to thermistor readings.
-      false: enable buffer and timer without interruption
-      true: enable delay interruption - default
-    */
-    void setUseDelay(bool delayEnable);
+		/*
+			Set enable/disable delay interruption to thermistor readings.
+			false: enable buffer and timer without interruption
+			true: enable delay interruption - default
+		*/
+		void setUseDelay(bool delayEnable);
 
 
-    /*
-      Populate buffer to avoid delay() in rotines.
-    */
-    bool Update();
-    bool Update(long now);
+		/*
+			Populate buffer to avoid delay() in rotines.
+		*/
+		bool Update();
+		bool Update(long now);
 
-    /*
-     To check if read is finish.
-    */
-    bool isReading(){return enableRead;};
+		/*
+			To check if read is finish.
+		*/
+		bool isReading(){return enableRead;};
 
-    /*
-      Start read and buffer population
-    */
-    void startRead();
+		/*
+			Start read and buffer population
+		*/
+		void startRead();
 
 
 	private:
 		/**
-		  Buffer memory allocation
+			Buffer memory allocation
 		*/
 		inline void initBuffer();
 
@@ -226,10 +226,10 @@ class NTC_Thermistor final {
 		*/
 		inline double readVoltage();
 
-  	/**
-  		Reads a voltage from the thermistor buffer.
-  	*/
-    inline double readBuffer();
+		/**
+			Reads a voltage from the thermistor buffer.
+		*/
+	  inline double readBuffer();
 
 		/**
 			Resistance to Kelvin conversion:

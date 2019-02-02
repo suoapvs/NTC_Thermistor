@@ -11,11 +11,11 @@
 #include "NTC_Thermistor.h"
 
 NTC_Thermistor::NTC_Thermistor(
-  const int pin,
-  const double referenceResistance,
-  const double nominalResistance,
-  const double nominalTemperatureCelsius,
-  const double bValue
+	const int pin,
+	const double referenceResistance,
+	const double nominalResistance,
+	const double nominalTemperatureCelsius,
+	const double bValue
 ) : NTC_Thermistor(
 		pin, referenceResistance,
 		nominalResistance,
@@ -35,49 +35,49 @@ NTC_Thermistor::NTC_Thermistor(
 	const int readingsNumber,
 	const long delayTime
 ) : NTC_Thermistor(
-    pin, referenceResistance,
-    nominalResistance,
-    nominalTemperatureCelsius,
-    bValue,
-    readingsNumber,
-    delayTime,
-    NTC_DEFAULT_ENABLE_DELAY
+		pin, referenceResistance,
+		nominalResistance,
+		nominalTemperatureCelsius,
+		bValue,
+		readingsNumber,
+		delayTime,
+		NTC_DEFAULT_ENABLE_DELAY
 ) {
 }
 
 NTC_Thermistor::NTC_Thermistor(
-  const int pin,
-  const double referenceResistance,
-  const double nominalResistance,
-  const double nominalTemperatureCelsius,
-  const double bValue,
-  const int readingsNumber,
-  const long delayTime,
-  const bool useDelay
+	const int pin,
+	const double referenceResistance,
+	const double nominalResistance,
+	const double nominalTemperatureCelsius,
+	const double bValue,
+	const int readingsNumber,
+	const long delayTime,
+	const bool useDelay
 ) {
-  this->pin = pin;
-  pinMode(this->pin, INPUT_PULLUP);
-  this->referenceResistance = referenceResistance;
-  this->nominalResistance = nominalResistance;
-  this->nominalTemperature = celsiusToKelvins(nominalTemperatureCelsius);
-  this->bValue = bValue;
-  this->enableRead = false;
-  this->analogBuffer = NULL;
-  setUseDelay(useDelay);
-  setDelayTime(delayTime);
-  setReadingsNumber(readingsNumber);
+	this->pin = pin;
+	pinMode(this->pin, INPUT_PULLUP);
+	this->referenceResistance = referenceResistance;
+	this->nominalResistance = nominalResistance;
+	this->nominalTemperature = celsiusToKelvins(nominalTemperatureCelsius);
+	this->bValue = bValue;
+	this->enableRead = false;
+	this->analogBuffer = NULL;
+	setUseDelay(useDelay);
+	setDelayTime(delayTime);
+	setReadingsNumber(readingsNumber);
 }
 
 /**
-  Allocate or reallocate buffer memory
-  when delay is disabled.
+	Allocate or reallocate buffer memory
+	when delay is disabled.
 */
 inline void NTC_Thermistor::initBuffer(){
-  if (this->analogBuffer == NULL){
-    this->analogBuffer = (double*)malloc(sizeof(double) * this->readingsNumber);
-  }else {
-    this->analogBuffer = (double*)realloc(this->analogBuffer, sizeof(double) * this->readingsNumber);
-  }
+	if (this->analogBuffer == NULL){
+		this->analogBuffer = (double*)malloc(sizeof(double) * this->readingsNumber);
+	}else {
+		this->analogBuffer = (double*)realloc(this->analogBuffer, sizeof(double) * this->readingsNumber);
+	}
 }
 
 /**
@@ -141,37 +141,37 @@ inline double NTC_Thermistor::readResistance() {
 inline double NTC_Thermistor::readVoltage() {
 	double analogSum = 0;
 
-  //delay enabled
-  if (this->useDelay){
-    for (unsigned int i = 0; i < this->readingsNumber; i++){
-      analogSum += analogRead(this->pin);
-      sleep();
-    }
-    return (analogSum / this->readingsNumber);
-  }
-  // buffer enabled
-  else return this->readBuffer();
+	//delay enabled
+	if (this->useDelay){
+		for (unsigned int i = 0; i < this->readingsNumber; i++){
+			analogSum += analogRead(this->pin);
+			sleep();
+		}
+		return (analogSum / this->readingsNumber);
+	}
+	// buffer enabled
+	else return this->readBuffer();
 }
 
 /**
-  Reads voltage readings stored in the buffer.
-  @return average thermistor voltage.
+	Reads voltage readings stored in the buffer.
+	@return average thermistor voltage.
 */
 
 inline double NTC_Thermistor::readBuffer() {
-  double analogSum = 0;
-  for (unsigned int i = 0; i < this->readingsNumber; i++){
-    analogSum += this->analogBuffer[i];
+	double analogSum = 0;
+	for (unsigned int i = 0; i < this->readingsNumber; i++){
+		analogSum += this->analogBuffer[i];
 
-    // abort loop if buffer is incomplete
-    if (this->isReading() && i == this->bufferId)
-      break;
-  }
+		// abort loop if buffer is incomplete
+		if (this->isReading() && i == this->bufferId)
+			break;
+	}
 
-  if (this->isReading()) // return only buffered
-    return analogSum / this->bufferId + 1;
-  else
-    return analogSum / this->readingsNumber;
+	if (this->isReading()) // return only buffered
+		return analogSum / this->bufferId + 1;
+	else
+		return analogSum / this->readingsNumber;
 }
 
 inline void NTC_Thermistor::sleep() {
@@ -181,10 +181,10 @@ inline void NTC_Thermistor::sleep() {
 void NTC_Thermistor::setReadingsNumber(const int newReadingsNumber) {
 	this->readingsNumber = validate(newReadingsNumber, NTC_DEFAULT_READINGS_NUMBER);
 
-  // delay disabled - set buffer
-  if (!this->useDelay){
-    initBuffer();
-  }
+	// delay disabled - set buffer
+	if (!this->useDelay){
+		initBuffer();
+	}
 }
 
 void NTC_Thermistor::setDelayTime(const long newDelayTime) {
@@ -193,62 +193,62 @@ void NTC_Thermistor::setDelayTime(const long newDelayTime) {
 
 
 /**
-  Enabled/Disable delay interrupts.
-  true: enable delay interrupts to readings.
-  false: disable delay and enable time based buffer to readings.
+	Enabled/Disable delay interrupts.
+	true: enable delay interrupts to readings.
+	false: disable delay and enable time based buffer to readings.
 */
 void NTC_Thermistor::setUseDelay(bool delayEnable){
-  this->useDelay = delayEnable;
+	this->useDelay = delayEnable;
 
-  // delay disabled - set buffer
-  if (!this->useDelay){
-    initBuffer();
-  }
+	// delay disabled - set buffer
+	if (!this->useDelay){
+		initBuffer();
+	}
 }
 
 
 /**
-  Alias to Update(long now)
+	Alias to Update(long now)
 */
 bool NTC_Thermistor::Update(){
-  return Update(millis());
+	return Update(millis());
 }
 
 /**
-  Populate buffer with timed voltage read from the thermistor analog port.
-  this->delayTime value is used as interval to read analog port.
-  @return
-    true: if analog ports is read:
-      (enableRead=true and useDelay=false and (now - lastRead) > this->delayTime)
-    false: if nothing is executed
-      (enableRead=false or useDelay=true or (now - lastRead) < this->delayTime)
+	Populate buffer with timed voltage read from the thermistor analog port.
+	this->delayTime value is used as interval to read analog port.
+	@return
+		true: if analog ports is read:
+			(enableRead=true and useDelay=false and (now - lastRead) > this->delayTime)
+		false: if nothing is executed
+			(enableRead=false or useDelay=true or (now - lastRead) < this->delayTime)
 */
 bool NTC_Thermistor::Update(long now){
-  bool result = false; //default return false
+	bool result = false; //default return false
 
-  if (isReading() && !this->useDelay && now - this->lastRead > this->delayTime){
+	if (isReading() && !this->useDelay && now - this->lastRead > this->delayTime){
 
-    this->analogBuffer[this->bufferId] = analogRead(this->pin);
-    this->lastRead = now;
-    this->bufferId++;
+		this->analogBuffer[this->bufferId] = analogRead(this->pin);
+		this->lastRead = now;
+		this->bufferId++;
 
-    if (this->bufferId >= this->readingsNumber){ //finish read
-      this->bufferId = 0; //reset buffer index
-      this->enableRead = false; //stop read
-    }
-    result = true;
-  }
-  return result;
+		if (this->bufferId >= this->readingsNumber){ //finish read
+			this->bufferId = 0; //reset buffer index
+			this->enableRead = false; //stop read
+		}
+		result = true;
+	}
+	return result;
 }
 
 /**
-  Start timed based readings when delay is disabled.
-  must needs call it before
+	Start timed based readings when delay is disabled.
+	must needs call it before
 */
 void NTC_Thermistor::startRead(){
-  this->bufferId = 0;
-  this->enableRead = true;
-  this->lastRead = millis();
+	this->bufferId = 0;
+	this->enableRead = true;
+	this->lastRead = millis();
 }
 
 /**{}
