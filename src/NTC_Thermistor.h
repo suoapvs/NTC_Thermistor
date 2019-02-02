@@ -64,6 +64,7 @@
 
 #define NTC_DEFAULT_READINGS_NUMBER	5
 #define NTC_DEFAULT_DELAY_TIME	10
+#define NTC_DEFAULT_ENABLE_DELAY 1
 
 class NTC_Thermistor final {
 
@@ -73,8 +74,14 @@ class NTC_Thermistor final {
 		double nominalResistance;
 		double nominalTemperature; // in Celsius.
 		double bValue;
-		volatile int readingsNumber;
-		volatile long delayTime;
+		unsigned int readingsNumber;
+		long delayTime;
+    bool useDelay;
+    double *analogBuffer;
+    unsigned int bufferId;
+    long lastRead;
+    bool enableRead;
+
 
 	public:
 		/**
@@ -118,6 +125,34 @@ class NTC_Thermistor final {
 		);
 
 		/**
+			Constructor.
+			@param pin - an analog port number to be attached
+				to the thermistor.
+			@param referenceResistance - reference resistance.
+			@param nominalResistance - nominal resistance.
+			@param nominalTemperature - nominal temperature in Celsius.
+			@param bValue - b-value of a thermistor.
+			@param readingsNumber - how many readings are
+				taken to determine a mean temperature.
+			@param delayTime - delay time between
+				a temperature readings (ms).
+			@param enableDelay - enable delay interruption
+        or disabled to use timed buffer without interruption - Update() function
+				must be called in loop cycle.
+
+		*/
+		NTC_Thermistor(
+			int pin,
+			double referenceResistance,
+			double nominalResistance,
+			double nominalTemperatureCelsius,
+			double bValue,
+			int readingsNumber,
+			long delayTime,
+      bool enableDelay
+		);
+
+		/**
 			Reads and returns a temperature in Celsius
 			from the thermocouple.
 		*/
@@ -149,11 +184,37 @@ class NTC_Thermistor final {
 		*/
 		void setDelayTime(long newDelayTime);
 
+
+    /*
+      Set enable/disable delay interruption to thermistor readings.
+      false: enable buffer and timer without interruption
+      true: enable delay interruption - default
+    */
+    void setUseDelay(bool delayEnable);
+
+
+    /*
+      Populate buffer to avoid delay() in rotines.
+    */
+    bool Update();
+    bool Update(long now);
+
+    /*
+     To check if read is finish.
+    */
+    bool isReading(){return enableRead;};
+
+    /*
+      Start read and buffer population
+    */
+    void startRead();
+
+
 	private:
 		/**
-			Initialization of module.
+		  Buffer memory allocation
 		*/
-		inline void init();
+		inline void initBuffer();
 
 		/**
 			Calculates a resistance of the thermistor:
@@ -164,6 +225,11 @@ class NTC_Thermistor final {
 			Reads a voltage from the thermistor.
 		*/
 		inline double readVoltage();
+
+  	/**
+  		Reads a voltage from the thermistor buffer.
+  	*/
+    inline double readBuffer();
 
 		/**
 			Resistance to Kelvin conversion:
