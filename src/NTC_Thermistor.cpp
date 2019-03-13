@@ -35,7 +35,7 @@ NTC_Thermistor::NTC_Thermistor(
 	const int readingsNumber,
 	const long delayTime
 ) {
-	pinMode(this->pin = pin, INPUT_PULLUP);
+	pinMode(this->pin = pin, INPUT);
 	this->referenceResistance = referenceResistance;
 	this->nominalResistance = nominalResistance;
 	this->nominalTemperature = celsiusToKelvins(nominalTemperatureCelsius);

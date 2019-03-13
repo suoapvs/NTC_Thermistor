@@ -34,7 +34,8 @@
 	- Fixed bug in setReadingsNumber() method.
 
 	v.1.1.4:
-	- Removed deprecated init() method.
+	- Removed deprecated init() method;
+	- Replaced pinMode from INPUT_PULLUP to INPUT.
 
 	https://github.com/YuriiSalimov/NTC_Thermistor
 
@@ -76,8 +77,8 @@ class NTC_Thermistor final {
 		double nominalResistance;
 		double nominalTemperature; // in Celsius.
 		double bValue;
-		volatile int readingsNumber;
-		volatile long delayTime;
+		int readingsNumber;
+		long delayTime;
 
 	public:
 		/**
