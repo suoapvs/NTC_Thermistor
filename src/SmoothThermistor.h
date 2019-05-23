@@ -13,9 +13,9 @@
     SMOOTH_FACTOR - smoothing factor of a temperature value.
 
   Read temperature:
-    double celsius = thermocouple->readCelsius();
-    double kelvin = thermocouple->readKelvin();
-    double fahrenheit = thermocouple->readFahrenheit();
+    double celsius = thermistor->readCelsius();
+    double kelvin = thermistor->readKelvin();
+    double fahrenheit = thermistor->readFahrenheit();
 
 	v.2.0.0
 	- created
