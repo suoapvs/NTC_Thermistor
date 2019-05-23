@@ -4,12 +4,7 @@
 	a temperature in Celsius, Fahrenheit and Kelvin.
 
 	Instantiation, for example, to NTC 3950 thermistor:
-		NTC_Thermistor thermistor(A1, 8000, 100000, 25, 3950);
-		or
-		NTC_Thermistor thermistor(
-			A1, 8000, 100000, 25, 3950,
-			READINGS_NUMBER, DELAY_TIME
-		);
+		Thermistor* thermistor = new NTC_Thermistor(A1, 8000, 100000, 25, 3950);
 
 		Where,
 		READINGS_NUMBER - How many readings are taken
@@ -21,9 +16,9 @@
 		from the temperature sensor (ms).
 
 	Read temperature:
-		double celsius = thermocouple.readCelsius();
-		double kelvin = thermocouple.readKelvin();
-		double fahrenheit = thermocouple.readFahrenheit();
+		double celsius = thermistor->readCelsius();
+		double kelvin = thermistor->readKelvin();
+		double fahrenheit = thermistor->readFahrenheit();
 
 	v.1.1.2:
 	- updated conversion from celsius to fahrenheit;
@@ -31,11 +26,15 @@
 	- optimized calls of private methods.
 
 	v.1.1.3:
-	- Fixed bug in setReadingsNumber() method.
+	- fixed bug in setReadingsNumber() method.
 
 	v.1.1.4:
-	- Removed deprecated init() method;
-	- Replaced pinMode from INPUT_PULLUP to INPUT.
+	- removed deprecated init() method;
+	- replaced pinMode from INPUT_PULLUP to INPUT.
+
+	v.2.0.0
+	- implemented Thermistor interface;
+	- removed methods for averaging result.
 
 	https://github.com/YuriiSalimov/NTC_Thermistor
 
@@ -45,31 +44,12 @@
 #ifndef NTC_THERMISTOR_H
 #define NTC_THERMISTOR_H
 
-#if defined(ARDUINO) && (ARDUINO >= 100)
-	#include <Arduino.h>
-#else
-	#include <WProgram.h>
-#endif
+#include "Thermistor.h"
 
-/**
-	Min value of Arduino ADC.
-*/
-#define NTC_THERMISTOR_ADC_MIN	0
+// Analog resolution for Arduino board
+#define ARDUINO_ADC_RESOLUTION 1023
 
-/**
-	Max value of Arduino ADC.
-*/
-#define NTC_THERMISTOR_ADC_MAX	1023
-
-/**
-	Values diapason of Arduino ADC
-*/
-#define NTC_THERMISTOR_ADC	((NTC_THERMISTOR_ADC_MAX) - (NTC_THERMISTOR_ADC_MIN))
-
-#define NTC_DEFAULT_READINGS_NUMBER	5
-#define NTC_DEFAULT_DELAY_TIME	10
-
-class NTC_Thermistor final {
+class NTC_Thermistor : public Thermistor {
 
 	private:
 		int pin; // an analog port.
@@ -77,18 +57,17 @@ class NTC_Thermistor final {
 		double nominalResistance;
 		double nominalTemperature; // in Celsius.
 		double bValue;
-		int readingsNumber;
-		long delayTime;
+		int adcResolution;
 
 	public:
 		/**
-			Constructor.
-			@param pin - an analog port number to be attached
-				to the thermistor.
-			@param referenceResistance - reference resistance.
-			@param nominalResistance - nominal resistance.
-			@param nominalTemperature - nominal temperature in Celsius.
-			@param bValue - b-value of a thermistor.
+			Constructor
+
+			@param pin - an analog port number to be attached to the thermistor
+			@param referenceResistance - reference resistance
+			@param nominalResistance - nominal resistance
+			@param nominalTemperature - nominal temperature in Celsius
+			@param bValue - b-value of a thermistor
 		*/
 		NTC_Thermistor(
 			int pin,
@@ -99,17 +78,14 @@ class NTC_Thermistor final {
 		);
 
 		/**
-			Constructor.
-			@param pin - an analog port number to be attached
-				to the thermistor.
-			@param referenceResistance - reference resistance.
-			@param nominalResistance - nominal resistance.
-			@param nominalTemperature - nominal temperature in Celsius.
-			@param bValue - b-value of a thermistor.
-			@param readingsNumber - how many readings are
-				taken to determine a mean temperature.
-			@param delayTime - delay time between
-				a temperature readings (ms).
+			Constructor
+
+			@param pin - an analog port number to be attached to the thermistor
+			@param referenceResistance - reference resistance
+			@param nominalResistance - nominal resistance
+			@param nominalTemperature - nominal temperature in Celsius
+			@param bValue - b-value of a thermistor
+			@param adcResolution - ADC resolution (1023, for Arduion)
 		*/
 		NTC_Thermistor(
 			int pin,
@@ -117,52 +93,35 @@ class NTC_Thermistor final {
 			double nominalResistance,
 			double nominalTemperatureCelsius,
 			double bValue,
-			int readingsNumber,
-			long delayTime
+			int adcResolution
 		);
 
 		/**
 			Reads and returns a temperature in Celsius
 			from the thermocouple.
 		*/
-		double readCelsius();
+		double readCelsius() override;
 
 		/**
 			Returns a temperature in Kelvin.
 		*/
-		double readKelvin();
+		double readKelvin() override;
 
 		/**
 			Returns a temperature in Fahrenheit.
 		*/
-		double readFahrenheit();
+		double readFahrenheit() override;
 
-		/**
-			Returns a temperature in Fahrenheit
-			(For older devices).
+  private:
+    /**
+			Reads a voltage from the thermistor.
 		*/
-		double readFarenheit();
+		inline double readVoltage();
 
-		/**
-			Sets a new readings number.
-		*/
-		void setReadingsNumber(int newReadingsNumber);
-
-		/**
-			Sets a new delay time.
-		*/
-		void setDelayTime(long newDelayTime);
-
-	private:
 		/**
 			Calculates a resistance of the thermistor:
 		*/
 		inline double readResistance();
-
-		/**
-			Reads a voltage from the thermistor.
-		*/
-		inline double readVoltage();
 
 		/**
 			Resistance to Kelvin conversion:
@@ -193,14 +152,6 @@ class NTC_Thermistor final {
 			F = (K - 273.15) * 1.8 + 32
 		*/
 		inline double kelvinsToFahrenheit(double kelvins);
-
-		inline void sleep();
-
-		/**
-			Returns the data if it is valid,
-			otherwise returns alternative data.
-		*/
-		template <typename A, typename B> A validate(A data, B alternative);
 };
 
 #endif

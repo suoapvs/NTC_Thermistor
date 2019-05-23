@@ -1,13 +1,3 @@
-/**
-	The class implements a set of methods of the NTC_Thermistor.h
-	interface for working with a NTC thermistor and reading
-	a temperature in Celsius, Fahrenheit and Kelvin.
-
-	https://github.com/YuriiSalimov/NTC_Thermistor
-
-	Created by Yurii Salimov, February, 2018.
-	Released into the public domain.
-*/
 #include "NTC_Thermistor.h"
 
 NTC_Thermistor::NTC_Thermistor(
@@ -17,12 +7,12 @@ NTC_Thermistor::NTC_Thermistor(
 	const double nominalTemperatureCelsius,
 	const double bValue
 ) : NTC_Thermistor(
-		pin, referenceResistance,
-		nominalResistance,
-		nominalTemperatureCelsius,
-		bValue,
-		NTC_DEFAULT_READINGS_NUMBER,
-		NTC_DEFAULT_DELAY_TIME
+	pin,
+	referenceResistance,
+	nominalResistance,
+	nominalTemperatureCelsius,
+	bValue,
+	ARDUINO_ADC_RESOLUTION
 ) {
 }
 
@@ -32,16 +22,14 @@ NTC_Thermistor::NTC_Thermistor(
 	const double nominalResistance,
 	const double nominalTemperatureCelsius,
 	const double bValue,
-	const int readingsNumber,
-	const long delayTime
+	const int adcResolution
 ) {
 	pinMode(this->pin = pin, INPUT);
 	this->referenceResistance = referenceResistance;
 	this->nominalResistance = nominalResistance;
 	this->nominalTemperature = celsiusToKelvins(nominalTemperatureCelsius);
 	this->bValue = bValue;
-	setReadingsNumber(readingsNumber);
-	setDelayTime(delayTime);
+	this->adcResolution = max(adcResolution, 0);
 }
 
 /**
@@ -62,10 +50,6 @@ double NTC_Thermistor::readCelsius() {
 */
 double NTC_Thermistor::readFahrenheit() {
 	return kelvinsToFahrenheit(readKelvin());
-}
-
-double NTC_Thermistor::readFarenheit() {
-	return readFahrenheit();
 }
 
 /**
@@ -91,7 +75,7 @@ inline double NTC_Thermistor::resistanceToKelvins(const double resistance) {
 	@return resistance of the thermistor sensor.
 */
 inline double NTC_Thermistor::readResistance() {
-	return this->referenceResistance / (NTC_THERMISTOR_ADC / readVoltage() - 1);
+	return this->referenceResistance / (this->adcResolution / readVoltage() - 1);
 }
 
 /**
@@ -101,33 +85,7 @@ inline double NTC_Thermistor::readResistance() {
 	@return average thermistor voltage.
 */
 inline double NTC_Thermistor::readVoltage() {
-	double analogSum = 0;
-	for (int i = 0; i < this->readingsNumber; i++) {
-		analogSum += analogRead(this->pin);
-		sleep();
-	}
-	return (analogSum / this->readingsNumber);
-}
-
-inline void NTC_Thermistor::sleep() {
-	delay(this->delayTime);
-}
-
-void NTC_Thermistor::setReadingsNumber(const int newReadingsNumber) {
-	this->readingsNumber = validate(newReadingsNumber, NTC_DEFAULT_READINGS_NUMBER);
-}
-
-void NTC_Thermistor::setDelayTime(const long newDelayTime) {
-	this->delayTime = validate(newDelayTime, NTC_DEFAULT_DELAY_TIME);
-}
-
-/**
-	Returns the data if it is positive,
-	otherwise returns alternative data.
-*/
-template <typename A, typename B>
-A NTC_Thermistor::validate(const A data, const B alternative) {
-	return (data > 0) ? data : alternative;
+	return analogRead(this->pin);
 }
 
 inline double NTC_Thermistor::celsiusToKelvins(const double celsius) {
