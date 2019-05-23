@@ -1,6 +1,7 @@
 # NTC Thermistor Library
 
-For Arduino boards.
+For Arduino ant STM32 boards.
+
 The Library implements a set of methods for working with a NTC thermistor.
 Provides a temperature reading in Celsius, Fahrenheit and Kelvin.
 
@@ -30,18 +31,6 @@ Connect to the analog side of an Arduino Uno. Run 5V through the thermistor, the
     */
     NTC_Thermistor thermistor(pin, R0, Rn, Tn, B);
 
-    // or
-    /**
-    	READINGS_NUMBER - How many readings are taken to determine
-        a mean temperature. The more values, the longer a calibration
-        is performed, but the readings will be more accurate.
-    	DELAY_TIME - Delay time between a temperature readings (ms).
-    */
-    NTC_Thermistor thermistor(
-		pin, R0, Rn, Tn, B,
-		READINGS_NUMBER, DELAY_TIME
-	);
-
     // Read a temperature in Celsius.
     double celsius = thermistor.readCelsius();
     // Read a temperature in Kelvin.
@@ -50,14 +39,18 @@ Connect to the analog side of an Arduino Uno. Run 5V through the thermistor, the
     double fahrenheit = thermistor.readFahrenheit();
     // For older devices.
     double farenheit = thermistor.readFarenheit();
-
-    // Sets a new readings number.
-    thermistor.setReadingsNumber(READINGS_NUMBER);
-    // Sets a new delay time.
-    thermistor.setDelayTime(DELAY_TIME);
-
 ```
 
-See [examples](/examples)...
+### Examples
+
+[Serial Reading](/examples/SerialReading/SerialReading.ino)
+
+[Average Measurement](/examples/AverageMeasurement/AverageMeasurement.ino)
+
+[Smooth Measurement](/examples/SmoothMeasurement/SmoothMeasurement.ino)
+
+[STM32...](/examples/STM32/STM32.ino)
+
+[All examples...](/examples)
 
 Created by Yurii Salimov.
