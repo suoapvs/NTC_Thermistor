@@ -1,14 +1,15 @@
 /*
   NTC Thermistor
 
-  Reads a temperature from the NTC 3950 thermistor
-  and displays it in the default Serial.
+  Reads a temperature from the NTC 3950 thermistor and displays
+  it in the default Serial.
 
   https://github.com/YuriiSalimov/NTC_Thermistor
 
-  Created by Yurii Salimov, February, 2018.
+  Created by Yurii Salimov, May, 2019.
   Released into the public domain.
 */
+#include <Thermistor.h>
 #include <NTC_Thermistor.h>
 
 #define SENSOR_PIN             A1
@@ -17,11 +18,12 @@
 #define NOMINAL_TEMPERATURE    25
 #define B_VALUE                3950
 
-NTC_Thermistor* thermistor = NULL;
+Thermistor* thermistor;
 
 // the setup function runs once when you press reset or power the board
 void setup() {
   Serial.begin(9600);
+
   thermistor = new NTC_Thermistor(
     SENSOR_PIN,
     REFERENCE_RESISTANCE,
@@ -33,12 +35,19 @@ void setup() {
 
 // the loop function runs over and over again forever
 void loop() {
+  // Reads temperature
   const double celsius = thermistor->readCelsius();
   const double kelvin = thermistor->readKelvin();
   const double fahrenheit = thermistor->readFahrenheit();
+
+  // Output of information
   Serial.print("Temperature: ");
-  Serial.print(String(celsius) + " C, ");
-  Serial.print(String(kelvin) + " K, ");
-  Serial.println(String(fahrenheit) + " F");
-  delay(500);
+  Serial.print(celsius);
+  Serial.print(" C, ");
+  Serial.print(kelvin);
+  Serial.print(" K, ");
+  Serial.print(fahrenheit);
+  Serial.println(" F");
+
+  delay(500); // To delay the output of information.
 }
