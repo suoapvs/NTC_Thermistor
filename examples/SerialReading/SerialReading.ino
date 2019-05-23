@@ -1,8 +1,8 @@
 /*
   NTC Thermistor
 
-  Reads a temperature from the NTC 3950 thermistor and displays
-  it in the default Serial.
+  Reads a temperature from the NTC 3950 thermistor
+  and displays it in the default Serial.
 
   https://github.com/YuriiSalimov/NTC_Thermistor
 
