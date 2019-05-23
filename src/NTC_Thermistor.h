@@ -4,21 +4,21 @@
 	a temperature in Celsius, Fahrenheit and Kelvin.
 
 	Instantiation, for example, to NTC 3950 thermistor:
-		Thermistor* thermistor = new NTC_Thermistor(A1, 8000, 100000, 25, 3950);
+	Thermistor* thermistor = new NTC_Thermistor(A1, 8000, 100000, 25, 3950);
 
-		Where,
-		READINGS_NUMBER - How many readings are taken
-		to determine a mean temperature. The more values,
-		the longer a calibration is performed, but the readings
-		will be more accurate.
+	Where,
+	READINGS_NUMBER - How many readings are taken
+	to determine a mean temperature. The more values,
+	the longer a calibration is performed, but the readings
+	will be more accurate.
 
-		DELAY_TIME - Delay time between a temperature readings
-		from the temperature sensor (ms).
+	DELAY_TIME - Delay time between a temperature readings
+	from the temperature sensor (ms).
 
 	Read temperature:
-		double celsius = thermistor->readCelsius();
-		double kelvin = thermistor->readKelvin();
-		double fahrenheit = thermistor->readFahrenheit();
+	double celsius = thermistor->readCelsius();
+	double kelvin = thermistor->readKelvin();
+	double fahrenheit = thermistor->readFahrenheit();
 
 	v.1.1.2:
 	- updated conversion from celsius to fahrenheit;
@@ -112,8 +112,8 @@ class NTC_Thermistor : public Thermistor {
 		*/
 		double readFahrenheit() override;
 
-  private:
-    /**
+	private:
+		/**
 			Reads a voltage from the thermistor.
 		*/
 		inline double readVoltage();

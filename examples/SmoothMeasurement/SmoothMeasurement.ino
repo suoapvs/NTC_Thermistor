@@ -20,9 +20,9 @@
 #define B_VALUE                3950
 
 /**
-   How many readings are taken to determine a mean temperature.
-   The more values, the longer a calibration is performed,
-   but the readings will be more accurate.
+  How many readings are taken to determine a mean temperature.
+  The more values, the longer a calibration is performed,
+  but the readings will be more accurate.
 */
 #define SMOOTH_FACTOR 5
 

@@ -1,29 +1,29 @@
 /**
-	SmoothThermistor.h - class-wrapper allows to smooth
+  SmoothThermistor.h - class-wrapper allows to smooth
   the temperature value of origin Thermistor instance.
 
   Instantiation:
-    Thermistor* thermistor = new SmoothThermistor(
-      THERMISTOR, SMOOTH_FACTOR
-    );
+  Thermistor* thermistor = new SmoothThermistor(
+    THERMISTOR, SMOOTH_FACTOR
+  );
 
-    Where,
-    THERMISTOR - origin Thermistor instance.
+  Where,
+  THERMISTOR - origin Thermistor instance.
 
-    SMOOTH_FACTOR - smoothing factor of a temperature value.
+  SMOOTH_FACTOR - smoothing factor of a temperature value.
 
   Read temperature:
-    double celsius = thermistor->readCelsius();
-    double kelvin = thermistor->readKelvin();
-    double fahrenheit = thermistor->readFahrenheit();
+  double celsius = thermistor->readCelsius();
+  double kelvin = thermistor->readKelvin();
+  double fahrenheit = thermistor->readFahrenheit();
 
-	v.2.0.0
-	- created
+  v.2.0.0
+  - created
 
-	https://github.com/YuriiSalimov/NTC_Thermistor
+  https://github.com/YuriiSalimov/NTC_Thermistor
 
-	Created by Yurii Salimov, May, 2019.
-	Released into the public domain.
+  Created by Yurii Salimov, May, 2019.
+  Released into the public domain.
 */
 #ifndef SMOOTH_THERMISTOR_H
 #define SMOOTH_THERMISTOR_H
@@ -35,11 +35,17 @@ class SmoothThermistor final : public Thermistor {
   private:
     Thermistor* origin;
     int factor;
-		double celsius = 0;
+    double celsius = 0;
     double kelvin = 0;
     double fahrenheit = 0;
 
-	public:
+  public:
+    /**
+      Constructor
+
+      @param origin - origin Thermistor instance.
+      @param factor - smoothing factor of a temperature value
+    */
     SmoothThermistor(
       Thermistor* origin,
       int factor

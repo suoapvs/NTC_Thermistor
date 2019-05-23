@@ -1,35 +1,35 @@
 /**
-	AverageThermistor.h - class-wrapper allows to average
+  AverageThermistor.h - class-wrapper allows to average
   the temperature value of origin Thermistor instance.
 
   Instantiation:
-    Thermistor* thermistor = new AverageThermistor(
-      THERMISTOR, READINGS_NUMBER, DELAY_TIME
-    );
+  Thermistor* thermistor = new AverageThermistor(
+    THERMISTOR, READINGS_NUMBER, DELAY_TIME
+  );
 
-    Where,
-    THERMISTOR - origin Thermistor instance.
+  Where,
+  THERMISTOR - origin Thermistor instance.
 
-    READINGS_NUMBER - How many readings are taken
-    to determine a mean temperature. The more values,
-    the longer a calibration is performed, but the readings
-    will be more accurate.
+  READINGS_NUMBER - How many readings are taken
+  to determine a mean temperature. The more values,
+  the longer a calibration is performed, but the readings
+  will be more accurate.
 
-    DELAY_TIME - Delay time between a temperature readings
-    from the temperature sensor (ms).
+  DELAY_TIME - Delay time between a temperature readings
+  from the temperature sensor (ms).
 
   Read temperature:
-    double celsius = thermistor->readCelsius();
-    double kelvin = thermistor->readKelvin();
-    double fahrenheit = thermistor->readFahrenheit();
+  double celsius = thermistor->readCelsius();
+  double kelvin = thermistor->readKelvin();
+  double fahrenheit = thermistor->readFahrenheit();
 
-	v.2.0.0
-	- created
+  v.2.0.0
+  - created
 
-	https://github.com/YuriiSalimov/NTC_Thermistor
+  https://github.com/YuriiSalimov/NTC_Thermistor
 
-	Created by Yurii Salimov, May, 2019.
-	Released into the public domain.
+  Created by Yurii Salimov, May, 2019.
+  Released into the public domain.
 */
 #ifndef AVERAGE_THERMISTOR_H
 #define AVERAGE_THERMISTOR_H
@@ -46,20 +46,20 @@ class AverageThermistor final : public Thermistor {
   private:
     Thermistor* origin;
     int readingsNumber;
-		int delayTime;
+    int delayTime;
 
   public:
     /**
-			Constructor
+      Constructor
 
-			@param origin - origin Thermistor instance.
-			@param readingsNumber - average readings number
-			@param delayTimeInMillis - average delay time (in milliseconds)
-		*/
+      @param origin - origin Thermistor instance.
+      @param readingsNumber - average readings number
+      @param delayTimeInMillis - average delay time (in milliseconds)
+    */
     AverageThermistor(
       Thermistor* origin,
       int readingsNumber,
-  		int delayTimeInMillis
+      int delayTimeInMillis
     );
 
     /**
@@ -95,9 +95,9 @@ class AverageThermistor final : public Thermistor {
     inline void sleep();
 
     /**
-			Returns the data if it is valid,
-			otherwise returns alternative data.
-		*/
+      Returns the data if it is valid,
+      otherwise returns alternative data.
+    */
     template <typename A, typename B> A validate(A data, B alternative);
 };
 

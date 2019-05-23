@@ -64,7 +64,7 @@ double NTC_Thermistor::readKelvin() {
 
 inline double NTC_Thermistor::resistanceToKelvins(const double resistance) {
 	const double inverseKelvin = 1.0 / this->nominalTemperature +
-		1.0 / this->bValue * log(resistance / this->nominalResistance);
+	1.0 / this->bValue * log(resistance / this->nominalResistance);
 	return (1.0 / (inverseKelvin));
 }
 

@@ -24,8 +24,7 @@
 
   To calibrate use next constructor:
   Thermistor* thermistor = new NTC_Thermistor(
-    ...,
-    ANALOG_RESOLUTION
+    ..., ANALOG_RESOLUTION
   );
 
   Where,
