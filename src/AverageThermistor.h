@@ -37,9 +37,9 @@
 #include "Thermistor.h"
 
 // Default number of average readings.
-#define NTC_AVERAGE_READINGS_NUMBER	5
+#define NTC_AVERAGE_READINGS_NUMBER	10
 // Default delay time of average readings.
-#define NTC_AVERAGE_DELAY_TIME	10
+#define NTC_AVERAGE_DELAY_TIME	1
 
 class AverageThermistor final : public Thermistor {
 
