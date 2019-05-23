@@ -6,7 +6,10 @@
 #         Data types (KEYWORD1)          #
 ##########################################
 
+Thermistor	KEYWORD1
 NTC_Thermistor	KEYWORD1
+AverageThermistor	KEYWORD1
+SmoothThermistor	KEYWORD1
 
 ##########################################
 #    Methods and Functions (KEYWORD2)    #
@@ -15,6 +18,3 @@ NTC_Thermistor	KEYWORD1
 readCelsius	KEYWORD2
 readKelvin	KEYWORD2
 readFahrenheit	KEYWORD2
-readFarenheit	KEYWORD2
-setReadingsNumber	KEYWORD2
-setDelayTime	KEYWORD2
