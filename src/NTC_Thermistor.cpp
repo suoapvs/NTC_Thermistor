@@ -44,7 +44,7 @@ double NTC_Thermistor::readCelsius() {
 
 /**
 	Returns a temperature in Fahrenheit.
-	Reads a temperature in Celsius,
+	Reads a temperature in Kelvin,
 	converts in Fahrenheit and return it.
 	@return temperature in Fahrenheit.
 */
@@ -68,22 +68,10 @@ inline double NTC_Thermistor::resistanceToKelvins(const double resistance) {
 	return (1.0 / (inverseKelvin));
 }
 
-/**
-	Calculates a resistance of the thermistor:
-	Converts a value of the thermistor sensor into a resistance.
-	R = R0 / (ADC / V - 1);
-	@return resistance of the thermistor sensor.
-*/
 inline double NTC_Thermistor::readResistance() {
 	return this->referenceResistance / (this->adcResolution / readVoltage() - 1);
 }
 
-/**
-	Reads a voltage from the thermistor analog port.
-	Takes READINGS_NUMBER samples in a row,
-	with a slight delay.
-	@return average thermistor voltage.
-*/
 inline double NTC_Thermistor::readVoltage() {
 	return analogRead(this->pin);
 }

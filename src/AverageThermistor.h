@@ -69,21 +69,36 @@ class AverageThermistor final : public Thermistor {
     ~AverageThermistor();
 
     /**
-      Returns an average temperature in Celsius.
+      Reads a temperature in Celsius from the thermistor.
+
+      @return average temperature in degree Celsius
     */
     double readCelsius() override;
 
     /**
-      Returns an average temperature in Kelvin.
+      Reads a temperature in Kelvin from the thermistor.
+
+      @return average temperature in degree Kelvin
     */
     double readKelvin() override;
 
     /**
-      Returns an average temperature in Fahrenheit.
+      Reads a temperature in Fahrenheit from the thermistor.
+
+      @return average temperature in degree Fahrenheit
     */
     double readFahrenheit() override;
 
   private:
+    /**
+      Reads the temperature from the "*read()" method
+      "readingsNumber" times with delay "delayTimeInMillis".
+      Returns the average value.
+
+      @param *read - origin method that return temperature
+      @param thermistor - origin Thermistor instance
+      @return average temperature from the input *read() method
+    */
     double average(
       double (Thermistor::*read)(),
       Thermistor* thermistor
@@ -95,7 +110,11 @@ class AverageThermistor final : public Thermistor {
     inline void sleep();
 
     /**
-      Returns the data if it is valid,
+      Validates the input data.
+
+      @param data - value to validate
+      @param alternative - alternative value to return
+      @returns the data if it is valid (> 0),
       otherwise returns alternative data.
     */
     template <typename A, typename B> A validate(A data, B alternative);

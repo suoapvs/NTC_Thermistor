@@ -46,10 +46,7 @@ class SmoothThermistor final : public Thermistor {
       @param origin - origin Thermistor instance.
       @param factor - smoothing factor of a temperature value
     */
-    SmoothThermistor(
-      Thermistor* origin,
-      int factor
-    );
+    SmoothThermistor(Thermistor* origin, int factor);
 
     /**
       Destructor
@@ -58,27 +55,34 @@ class SmoothThermistor final : public Thermistor {
     ~SmoothThermistor();
 
     /**
-      Reads and returns a temperature in Celsius
-      from the thermocouple.
+      Reads a temperature in Celsius from the thermistor.
+
+      @return average temperature in degree Celsius
     */
     double readCelsius() override;
 
     /**
-      Returns a temperature in Kelvin.
+      Reads a temperature in Kelvin from the thermistor.
+
+      @return smoothed temperature in degree Kelvin
     */
     double readKelvin() override;
 
     /**
-      Returns a temperature in Fahrenheit.
+      Reads a temperature in Fahrenheit from the thermistor.
+
+      @return smoothed temperature in degree Fahrenheit
     */
     double readFahrenheit() override;
 
   private:
     /**
       Perform smoothing of the input value.
-      @param input - the value to smoothing
+
+      @param input - the value to smooth
       @param data - the data for smoothing of the input value
-      @return a smoothed value
+      @return smoothed value or the input value
+      if the smooth factor is less than 1 or the input data is 0.
     */
     double smoothe(double input, double data);
 };

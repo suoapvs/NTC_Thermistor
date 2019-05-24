@@ -97,59 +97,85 @@ class NTC_Thermistor : public Thermistor {
 		);
 
 		/**
-			Reads and returns a temperature in Celsius
-			from the thermocouple.
+			Reads a temperature in Celsius from the thermistor.
+
+			@return temperature in degree Celsius
 		*/
 		double readCelsius() override;
 
 		/**
-			Returns a temperature in Kelvin.
+			Reads a temperature in Kelvin from the thermistor.
+
+			@return temperature in degree Kelvin
 		*/
 		double readKelvin() override;
 
 		/**
-			Returns a temperature in Fahrenheit.
+			Reads a temperature in Fahrenheit from the thermistor.
+
+			@return temperature in degree Fahrenheit
 		*/
 		double readFahrenheit() override;
 
 	private:
 		/**
-			Reads a voltage from the thermistor.
+			Reads a voltage from the thermistor analog port.
+
+			@return thermistor voltage in analog range (0...1023, for Arduino).
 		*/
 		inline double readVoltage();
 
 		/**
 			Calculates a resistance of the thermistor:
+			Converts a value of the thermistor sensor into a resistance.
+			R = R0 / (ADC / V - 1);
+
+			@return resistance of the thermistor sensor.
 		*/
 		inline double readResistance();
 
 		/**
 			Resistance to Kelvin conversion:
 			1/K = 1/K0 + 1/B * ln(R/R0)
+
+			@param resistance - resistance value to convert
+			@return temperature in degree Kelvin
 		*/
 		inline double resistanceToKelvins(double resistance);
 
 		/**
 			Celsius to Kelvin conversion:
 			K = C + 273.15
+
+			@param celsius - temperature in degree Celsius to convert
+			@return temperature in degree Kelvin
 		*/
 		inline double celsiusToKelvins(double celsius);
 
 		/**
 			Kelvin to Celsius conversion:
 			C = K - 273.15
+
+			@param kelvins - temperature in degree Kelvin to convert
+			@return temperature in degree Celsius
 		*/
 		inline double kelvinsToCelsius(double kelvins);
 
 		/**
 			Celsius to Fahrenheit conversion:
 			F = C * 1.8 + 32
+
+			@param celsius - temperature in degree Celsius to convert
+			@return temperature in degree Fahrenheit
 		*/
 		inline double celsiusToFahrenheit(double celsius);
 
 		/**
 			Kelvin to Fahrenheit conversion:
 			F = (K - 273.15) * 1.8 + 32
+
+			@param kelvins - temperature in degree Kelvin to convert
+			@return temperature in degree Fahrenheit
 		*/
 		inline double kelvinsToFahrenheit(double kelvins);
 };

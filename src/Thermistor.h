@@ -24,18 +24,23 @@ class Thermistor {
 
 	public:
 		/**
-			Reads and returns a temperature in Celsius
-			from the thermocouple.
+			Reads a temperature in Celsius from the thermistor.
+
+			@return temperature in degree Celsius
 		*/
 		virtual double readCelsius() = 0;
 
 		/**
-			Returns a temperature in Kelvin.
+			Reads a temperature in Kelvin from the thermistor.
+
+			@return temperature in degree Kelvin
 		*/
 		virtual double readKelvin() = 0;
 
 		/**
-			Returns a temperature in Fahrenheit.
+			Reads a temperature in Fahrenheit from the thermistor.
+
+			@return temperature in degree Fahrenheit
 		*/
 		virtual double readFahrenheit() = 0;
 };
