@@ -6,15 +6,6 @@
   Instantiation, for example, to NTC 3950 thermistor:
   Thermistor* thermistor = new NTC_Thermistor(A1, 8000, 100000, 25, 3950);
 
-  Where,
-  READINGS_NUMBER - How many readings are taken
-  to determine a mean temperature. The more values,
-  the longer a calibration is performed, but the readings
-  will be more accurate.
-
-  DELAY_TIME - Delay time between a temperature readings
-  from the temperature sensor (ms).
-
   Read temperature:
     double celsius = thermistor->readCelsius();
     double kelvin = thermistor->readKelvin();
