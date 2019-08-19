@@ -6,8 +6,8 @@ AverageThermistor::AverageThermistor(
   const int delayTimeInMillis
 ) {
   this->origin = origin;
-  this->readingsNumber = validate(readingsNumber, NTC_AVERAGE_READINGS_NUMBER);
-  this->delayTime = validate(delayTimeInMillis, NTC_AVERAGE_DELAY_TIME);
+  this->readingsNumber = validate(readingsNumber, NTC_DEFAULT_AVERAGE_READINGS_NUMBER);
+  this->delayTime = validate(delayTimeInMillis, NTC_DEFAULT_AVERAGE_DELAY_TIME);
 }
 
 AverageThermistor::~AverageThermistor() {
@@ -15,24 +15,21 @@ AverageThermistor::~AverageThermistor() {
 }
 
 double AverageThermistor::readCelsius() {
-  return average(&Thermistor::readCelsius, this->origin);
+  return average(&Thermistor::readCelsius);
 }
 
 double AverageThermistor::readKelvin() {
-  return average(&Thermistor::readKelvin, this->origin);
+  return average(&Thermistor::readKelvin);
 }
 
 double AverageThermistor::readFahrenheit() {
-  return average(&Thermistor::readFahrenheit, this->origin);
+  return average(&Thermistor::readFahrenheit);
 }
 
-double AverageThermistor::average(
-  double (Thermistor::*read)(),
-  Thermistor* thermistor
-) {
+inline double AverageThermistor::average(double (Thermistor::*read)()) {
   double sum = 0;
-  for (int i = 0; i < this->readingsNumber; i++) {
-    sum += (thermistor->*read)();
+  for (int i = 0; i < this->readingsNumber; ++i) {
+    sum += (this->origin->*read)();
     sleep();
   }
   return (sum / this->readingsNumber);
@@ -43,6 +40,6 @@ inline void AverageThermistor::sleep() {
 }
 
 template <typename A, typename B>
-A AverageThermistor::validate(A data, B alternative) {
+inline A AverageThermistor::validate(A data, B alternative) {
   return (data > 0) ? data : alternative;
 }

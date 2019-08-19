@@ -1,5 +1,5 @@
 /**
-  AverageThermistor.h - class-wrapper allows to average
+  AverageThermistor - class-wrapper allows to average
   the temperature value of origin Thermistor instance.
 
   Instantiation:
@@ -19,12 +19,18 @@
   from the temperature sensor (ms).
 
   Read temperature:
-  double celsius = thermistor->readCelsius();
-  double kelvin = thermistor->readKelvin();
-  double fahrenheit = thermistor->readFahrenheit();
+    double celsius = thermistor->readCelsius();
+    double kelvin = thermistor->readKelvin();
+    double fahrenheit = thermistor->readFahrenheit();
 
   v.2.0.0
   - created
+
+  v.2.0.2
+  - optimized average(*) method;
+  - renamed default constants;
+  - added default value of constructor parameters;
+  - updated documentation.
 
   https://github.com/YuriiSalimov/NTC_Thermistor
 
@@ -37,9 +43,9 @@
 #include "Thermistor.h"
 
 // Default number of average readings.
-#define NTC_AVERAGE_READINGS_NUMBER	10
+#define NTC_DEFAULT_AVERAGE_READINGS_NUMBER	10
 // Default delay time of average readings.
-#define NTC_AVERAGE_DELAY_TIME	1
+#define NTC_DEFAULT_AVERAGE_DELAY_TIME	1
 
 class AverageThermistor final : public Thermistor {
 
@@ -52,14 +58,14 @@ class AverageThermistor final : public Thermistor {
     /**
       Constructor
 
-      @param origin - origin Thermistor instance.
-      @param readingsNumber - average readings number
-      @param delayTimeInMillis - average delay time (in milliseconds)
+      @param origin - origin Thermistor instance (not NULL).
+      @param readingsNumber - average readings number (default, 10)
+      @param delayTimeInMillis - average delay time in milliseconds (default, 1 ms)
     */
     AverageThermistor(
       Thermistor* origin,
-      int readingsNumber,
-      int delayTimeInMillis
+      int readingsNumber = NTC_DEFAULT_AVERAGE_READINGS_NUMBER,
+      int delayTimeInMillis = NTC_DEFAULT_AVERAGE_DELAY_TIME
     );
 
     /**
@@ -96,13 +102,9 @@ class AverageThermistor final : public Thermistor {
       Returns the average value.
 
       @param *read - origin method that return temperature
-      @param thermistor - origin Thermistor instance
       @return average temperature from the input *read() method
     */
-    double average(
-      double (Thermistor::*read)(),
-      Thermistor* thermistor
-    );
+    inline double average(double (Thermistor::*read)());
 
     /**
       For delay between readings.
@@ -117,7 +119,8 @@ class AverageThermistor final : public Thermistor {
       @returns the data if it is valid (> 0),
       otherwise returns alternative data.
     */
-    template <typename A, typename B> A validate(A data, B alternative);
+    template <typename A, typename B>
+    inline A validate(A data, B alternative);
 };
 
 #endif
