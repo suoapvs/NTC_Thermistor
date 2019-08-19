@@ -37,7 +37,7 @@
 #include "Thermistor.h"
 
 // Minimum smoothing factor.
-#define NTC_MIN_SMOOTHING_FACTOR	2
+#define NTC_MIN_SMOOTHING_FACTOR 2
 // Default smoothing factor.
 #define NTC_DEFAULT_SMOOTHING_FACTOR 2
 
@@ -101,7 +101,7 @@ class SmoothThermistor final : public Thermistor {
     inline double smoothe(double input, double data);
 
     /**
-      Sets the smoothingFactor factor.
+      Sets the smoothing factor.
       If the input value is less than NTC_MIN_SMOOTHING_FACTOR,
       then sets NTC_DEFAULT_SMOOTHING_FACTOR.
 

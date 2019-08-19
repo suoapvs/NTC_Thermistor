@@ -24,7 +24,7 @@
   The more values, the longer a calibration is performed,
   but the readings will be more accurate.
 */
-#define READINGS_NUMBER  10
+#define READINGS_NUMBER 10
 
 /**
   Delay time between a temperature readings

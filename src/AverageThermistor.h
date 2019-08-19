@@ -43,9 +43,9 @@
 #include "Thermistor.h"
 
 // Default number of average readings.
-#define NTC_DEFAULT_AVERAGE_READINGS_NUMBER	10
+#define NTC_DEFAULT_AVERAGE_READINGS_NUMBER 10
 // Default delay time of average readings.
-#define NTC_DEFAULT_AVERAGE_DELAY_TIME	1
+#define NTC_DEFAULT_AVERAGE_DELAY_TIME 1
 
 class AverageThermistor final : public Thermistor {
 
@@ -58,7 +58,7 @@ class AverageThermistor final : public Thermistor {
     /**
       Constructor
 
-      @param origin - origin Thermistor instance (not NULL).
+      @param origin - origin Thermistor instance (not NULL)
       @param readingsNumber - average readings number (default, 10)
       @param delayTimeInMillis - average delay time in milliseconds (default, 1 ms)
     */
@@ -101,7 +101,7 @@ class AverageThermistor final : public Thermistor {
       "readingsNumber" times with delay "delayTimeInMillis".
       Returns the average value.
 
-      @param *read - origin method that return temperature
+      @param *read - origin method that return temperature (not NULL)
       @return average temperature from the input *read() method
     */
     inline double average(double (Thermistor::*read)());

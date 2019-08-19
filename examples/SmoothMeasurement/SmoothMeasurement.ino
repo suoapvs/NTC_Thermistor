@@ -41,7 +41,7 @@ void setup() {
   );
   thermistor = new SmoothThermistor(originThermistor, SMOOTH_FACTOR);
 
-  /* or
+  /* OR
     thermistor = new SmoothThermistor(
       new NTC_Thermistor(
         SENSOR_PIN,

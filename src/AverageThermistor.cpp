@@ -1,3 +1,7 @@
+/**
+  Created by Yurii Salimov, May, 2019.
+  Released into the public domain.
+*/
 #include "AverageThermistor.h"
 
 AverageThermistor::AverageThermistor(
