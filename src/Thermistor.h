@@ -1,5 +1,5 @@
 /**
-	Thermistor.h - interface describes a set of methods
+	Thermistor - interface describes a set of methods
 	for working with a thermistor sensor and reading
 	a temperature in Celsius, Fahrenheit and Kelvin.
 
