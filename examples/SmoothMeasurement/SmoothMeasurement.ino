@@ -20,11 +20,9 @@
 #define B_VALUE                3950
 
 /**
-  How many readings are taken to determine a mean temperature.
-  The more values, the longer a calibration is performed,
-  but the readings will be more accurate.
+  Smoothing factor of a temperature value.
 */
-#define SMOOTH_FACTOR 5
+#define SMOOTHING_FACTOR 5
 
 Thermistor* thermistor = NULL;
 
@@ -39,7 +37,7 @@ void setup() {
     NOMINAL_TEMPERATURE,
     B_VALUE
   );
-  thermistor = new SmoothThermistor(originThermistor, SMOOTH_FACTOR);
+  thermistor = new SmoothThermistor(originThermistor, SMOOTHING_FACTOR);
 
   /* OR
     thermistor = new SmoothThermistor(
@@ -50,7 +48,7 @@ void setup() {
         NOMINAL_TEMPERATURE,
         B_VALUE
       ),
-      SMOOTH_FACTOR
+      SMOOTHING_FACTOR
     );
   */
 }
