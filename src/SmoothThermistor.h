@@ -9,7 +9,6 @@
 
   Where,
   THERMISTOR - origin Thermistor instance.
-
   SMOOTH_FACTOR - smoothing factor of a temperature value.
 
   Read temperature:
