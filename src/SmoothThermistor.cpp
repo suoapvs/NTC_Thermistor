@@ -2,10 +2,10 @@
 
 SmoothThermistor::SmoothThermistor(
   Thermistor* origin,
-  const int factor
+  const int smoothingFactor
 ) {
   this->origin = origin;
-  this->factor = factor;
+  setSmoothingFactor(smoothingFactor);
 }
 
 SmoothThermistor::~SmoothThermistor() {
@@ -33,11 +33,16 @@ double SmoothThermistor::readFahrenheit() {
   );
 }
 
-double SmoothThermistor::smoothe(
+inline double SmoothThermistor::smoothe(
   const double input,
   const double data
 ) {
-  return (this->factor > 1) && (data != 0) ?
-    (data * (this->factor - 1) + input) / this->factor :
-    input;
+  return (data == 0) ? input :
+    ((data * (this->smoothingFactor - 1) + input) / this->smoothingFactor);
+}
+
+inline void SmoothThermistor::setSmoothingFactor(const int smoothingFactor) {
+  this->smoothingFactor = (smoothingFactor > NTC_MIN_SMOOTHING_FACTOR) ?
+    smoothingFactor :
+    NTC_DEFAULT_SMOOTHING_FACTOR;
 }

@@ -1,5 +1,5 @@
 /**
-  SmoothThermistor.h - class-wrapper allows to smooth
+  SmoothThermistor - class-wrapper allows to smooth
   the temperature value of origin Thermistor instance.
 
   Instantiation:
@@ -20,6 +20,12 @@
   v.2.0.0
   - created
 
+  v.2.0.2
+  - optimized smoothe(*) method;
+  - added default constants for the smoothing factor;
+  - added default value of constructor parameters;
+  - updated documentation.
+
   https://github.com/YuriiSalimov/NTC_Thermistor
 
   Created by Yurii Salimov, May, 2019.
@@ -30,11 +36,16 @@
 
 #include "Thermistor.h"
 
+// Minimum smoothing factor.
+#define NTC_MIN_SMOOTHING_FACTOR	2
+// Default smoothing factor.
+#define NTC_DEFAULT_SMOOTHING_FACTOR 2
+
 class SmoothThermistor final : public Thermistor {
 
   private:
     Thermistor* origin;
-    int factor;
+    int smoothingFactor;
     double celsius = 0;
     double kelvin = 0;
     double fahrenheit = 0;
@@ -43,10 +54,13 @@ class SmoothThermistor final : public Thermistor {
     /**
       Constructor
 
-      @param origin - origin Thermistor instance.
-      @param factor - smoothing factor of a temperature value
+      @param origin - origin Thermistor instance (not NULL).
+      @param factor - smoothing factor of a temperature value (default, 2)
     */
-    SmoothThermistor(Thermistor* origin, int factor);
+    SmoothThermistor(
+      Thermistor* origin,
+      int smoothingFactor = NTC_DEFAULT_SMOOTHING_FACTOR
+    );
 
     /**
       Destructor
@@ -84,7 +98,16 @@ class SmoothThermistor final : public Thermistor {
       @return smoothed value or the input value
       if the smooth factor is less than 1 or the input data is 0.
     */
-    double smoothe(double input, double data);
+    inline double smoothe(double input, double data);
+
+    /**
+      Sets the smoothingFactor factor.
+      If the input value is less than NTC_MIN_SMOOTHING_FACTOR,
+      then sets NTC_DEFAULT_SMOOTHING_FACTOR.
+
+      @param smoothingFactor - new smoothing factor
+    */
+    inline void setSmoothingFactor(int smoothingFactor);
 };
 
 #endif
