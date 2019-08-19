@@ -32,16 +32,27 @@ Thermistor* thermistor = NULL;
 void setup() {
   Serial.begin(9600);
 
-  thermistor = new SmoothThermistor(
-    new NTC_Thermistor(
-      SENSOR_PIN,
-      REFERENCE_RESISTANCE,
-      NOMINAL_RESISTANCE,
-      NOMINAL_TEMPERATURE,
-      B_VALUE
-    ),
-    SMOOTH_FACTOR
+  Thermistor* originThermistor = new NTC_Thermistor(
+    SENSOR_PIN,
+    REFERENCE_RESISTANCE,
+    NOMINAL_RESISTANCE,
+    NOMINAL_TEMPERATURE,
+    B_VALUE
   );
+  thermistor = new SmoothThermistor(originThermistor, SMOOTH_FACTOR);
+
+  /* or
+    thermistor = new SmoothThermistor(
+      new NTC_Thermistor(
+        SENSOR_PIN,
+        REFERENCE_RESISTANCE,
+        NOMINAL_RESISTANCE,
+        NOMINAL_TEMPERATURE,
+        B_VALUE
+      ),
+      SMOOTH_FACTOR
+    );
+  */
 }
 
 // the loop function runs over and over again forever
@@ -60,5 +71,5 @@ void loop() {
   Serial.print(fahrenheit);
   Serial.println(" F");
 
-  delay(500); // To delay the output of information.
+  delay(500); // optionally, only to delay the output of information in the example.
 }

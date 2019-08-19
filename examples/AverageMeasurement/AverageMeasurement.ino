@@ -30,7 +30,7 @@
   Delay time between a temperature readings
   from the temperature sensor (ms).
 */
-#define DELAY_TIME  10
+#define DELAY_TIME 10
 
 Thermistor* thermistor = NULL;
 
@@ -38,8 +38,22 @@ Thermistor* thermistor = NULL;
 void setup() {
   Serial.begin(9600);
 
+  Thermistor* originThermistor = new NTC_Thermistor(
+    SENSOR_PIN,
+    REFERENCE_RESISTANCE,
+    NOMINAL_RESISTANCE,
+    NOMINAL_TEMPERATURE,
+    B_VALUE
+  );
   thermistor = new AverageThermistor(
-    new NTC_Thermistor(
+    originThermistor,
+    READINGS_NUMBER,
+    DELAY_TIME
+  );
+
+  /* OR
+    thermistor = new AverageThermistor(
+      new NTC_Thermistor(
       SENSOR_PIN,
       REFERENCE_RESISTANCE,
       NOMINAL_RESISTANCE,
@@ -49,6 +63,7 @@ void setup() {
     READINGS_NUMBER,
     DELAY_TIME
   );
+  */
 }
 
 // the loop function runs over and over again forever
@@ -67,5 +82,5 @@ void loop() {
   Serial.print(fahrenheit);
   Serial.println(" F");
 
-  delay(100); // To delay the output of information.
+  delay(100); // optionally, only to delay the output of information in the example.
 }

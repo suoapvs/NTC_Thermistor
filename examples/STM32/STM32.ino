@@ -10,7 +10,7 @@
   The STM32 board has ADC resolution of 12 bits. Hence the values on each analog
   channel can vary from 0 to 4095.
 
-  If you use the STM32 board, you must calibrate your joystick,
+  If you use the STM32 board, you must calibrate your thermistor,
   since the analogRead(*) function return 0..4095
   versus 0..1023 for Arduino.
 
@@ -57,7 +57,7 @@ void setup() {
     NOMINAL_RESISTANCE,
     NOMINAL_TEMPERATURE,
     B_VALUE,
-    STM32_ANALOG_RESOLUTION
+    STM32_ANALOG_RESOLUTION // <- for a thermistor calibration
   );
 }
 
@@ -77,5 +77,5 @@ void loop() {
   Serial.print(fahrenheit);
   Serial.println(" F");
 
-  delay(500); // To delay the output of information.
+  delay(500); // optionally, only to delay the output of information in the example.
 }
