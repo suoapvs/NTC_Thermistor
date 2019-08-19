@@ -45,8 +45,10 @@ inline double SmoothThermistor::smoothe(
     ((data * (this->smoothingFactor - 1) + input) / this->smoothingFactor);
 }
 
+/*
+  See about the max(*) function:
+  https://www.arduino.cc/reference/en/language/functions/math/max/
+*/
 inline void SmoothThermistor::setSmoothingFactor(const int smoothingFactor) {
-  this->smoothingFactor = (smoothingFactor > NTC_MIN_SMOOTHING_FACTOR) ?
-    smoothingFactor :
-    NTC_DEFAULT_SMOOTHING_FACTOR;
+  this->smoothingFactor = max(smoothingFactor, NTC_MIN_SMOOTHING_FACTOR);
 }

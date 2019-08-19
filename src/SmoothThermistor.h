@@ -22,7 +22,7 @@
 
   v.2.0.2
   - optimized smoothe(*) method;
-  - added default constants for the smoothing factor;
+  - added default constant for the smoothing factor;
   - added default value of constructor parameters;
   - updated documentation.
 
@@ -38,8 +38,6 @@
 
 // Minimum smoothing factor.
 #define NTC_MIN_SMOOTHING_FACTOR 2
-// Default smoothing factor.
-#define NTC_DEFAULT_SMOOTHING_FACTOR 2
 
 class SmoothThermistor final : public Thermistor {
 
@@ -59,7 +57,7 @@ class SmoothThermistor final : public Thermistor {
     */
     SmoothThermistor(
       Thermistor* origin,
-      int smoothingFactor = NTC_DEFAULT_SMOOTHING_FACTOR
+      int smoothingFactor = NTC_MIN_SMOOTHING_FACTOR
     );
 
     /**
@@ -96,14 +94,14 @@ class SmoothThermistor final : public Thermistor {
       @param input - the value to smooth
       @param data - the data for smoothing of the input value
       @return smoothed value or the input value
-      if the smooth factor is less than 1 or the input data is 0.
+      if the input data is 0.
     */
     inline double smoothe(double input, double data);
 
     /**
       Sets the smoothing factor.
       If the input value is less than NTC_MIN_SMOOTHING_FACTOR,
-      then sets NTC_DEFAULT_SMOOTHING_FACTOR.
+      then sets NTC_MIN_SMOOTHING_FACTOR.
 
       @param smoothingFactor - new smoothing factor
     */
