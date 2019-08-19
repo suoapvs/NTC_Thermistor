@@ -5,22 +5,6 @@ NTC_Thermistor::NTC_Thermistor(
 	const double referenceResistance,
 	const double nominalResistance,
 	const double nominalTemperatureCelsius,
-	const double bValue
-) : NTC_Thermistor(
-	pin,
-	referenceResistance,
-	nominalResistance,
-	nominalTemperatureCelsius,
-	bValue,
-	ARDUINO_ADC_RESOLUTION
-) {
-}
-
-NTC_Thermistor::NTC_Thermistor(
-	const int pin,
-	const double referenceResistance,
-	const double nominalResistance,
-	const double nominalTemperatureCelsius,
 	const double bValue,
 	const int adcResolution
 ) {
@@ -36,6 +20,7 @@ NTC_Thermistor::NTC_Thermistor(
 	Reads and returns a temperature in Celsius.
 	Reads the temperature in Kelvin,
 	converts in Celsius and return it.
+
 	@return temperature in Celsius.
 */
 double NTC_Thermistor::readCelsius() {
@@ -46,6 +31,7 @@ double NTC_Thermistor::readCelsius() {
 	Returns a temperature in Fahrenheit.
 	Reads a temperature in Kelvin,
 	converts in Fahrenheit and return it.
+
 	@return temperature in Fahrenheit.
 */
 double NTC_Thermistor::readFahrenheit() {
@@ -56,6 +42,7 @@ double NTC_Thermistor::readFahrenheit() {
 	Returns a temperature in Kelvin.
 	Reads the thermistor resistance,
 	converts in Kelvin and return it.
+
 	@return temperature in Kelvin.
 */
 double NTC_Thermistor::readKelvin() {
@@ -64,8 +51,8 @@ double NTC_Thermistor::readKelvin() {
 
 inline double NTC_Thermistor::resistanceToKelvins(const double resistance) {
 	const double inverseKelvin = 1.0 / this->nominalTemperature +
-	1.0 / this->bValue * log(resistance / this->nominalResistance);
-	return (1.0 / (inverseKelvin));
+		log(resistance / this->nominalResistance) / this->bValue;
+	return (1.0 / inverseKelvin);
 }
 
 inline double NTC_Thermistor::readResistance() {
@@ -91,8 +78,8 @@ inline double NTC_Thermistor::celsiusToFahrenheit(const double celsius) {
 /**
 	Kelvin to Fahrenheit conversion:
 	F = (K - 273.15) * 1.8 + 32
-	C = (K - 273.15) - celsius.
-	F = C * 1.8 + 32 - Celsius to Fahrenheit conversion.
+	Where C = (K - 273.15) is Kelvins To Celsius conversion.
+	Then F = C * 1.8 + 32 is Celsius to Fahrenheit conversion.
 	=> Kelvin convert to Celsius, then Celsius to Fahrenheit.
 */
 inline double NTC_Thermistor::kelvinsToFahrenheit(const double kelvins) {
