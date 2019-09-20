@@ -25,6 +25,9 @@
   - added default value of constructor parameters;
   - updated documentation.
 
+  v.2.0.3
+  - replaced "define" constants with "static const"
+
   https://github.com/YuriiSalimov/NTC_Thermistor
 
   Created by Yurii Salimov, May, 2019.
@@ -35,12 +38,12 @@
 
 #include "Thermistor.h"
 
-// Minimum smoothing factor.
-#define NTC_MIN_SMOOTHING_FACTOR 2
-
 class SmoothThermistor final : public Thermistor {
 
   private:
+    // Minimum smoothing factor.
+    static const int MIN_SMOOTHING_FACTOR = 2;
+
     Thermistor* origin;
     int smoothingFactor;
     double celsius = 0;
@@ -56,7 +59,7 @@ class SmoothThermistor final : public Thermistor {
     */
     SmoothThermistor(
       Thermistor* origin,
-      int smoothingFactor = NTC_MIN_SMOOTHING_FACTOR
+      int smoothingFactor = MIN_SMOOTHING_FACTOR
     );
 
     /**

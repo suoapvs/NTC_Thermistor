@@ -19,9 +19,9 @@
   from the temperature sensor (ms).
 
   Read temperature:
-    double celsius = thermistor->readCelsius();
-    double kelvin = thermistor->readKelvin();
-    double fahrenheit = thermistor->readFahrenheit();
+  double celsius = thermistor->readCelsius();
+  double kelvin = thermistor->readKelvin();
+  double fahrenheit = thermistor->readFahrenheit();
 
   v.2.0.0
   - created
@@ -31,6 +31,9 @@
   - renamed default constants;
   - added default value of constructor parameters;
   - updated documentation.
+
+  v.2.0.3
+  - replaced "define" constants with "static const"
 
   https://github.com/YuriiSalimov/NTC_Thermistor
 
@@ -42,14 +45,14 @@
 
 #include "Thermistor.h"
 
-// Default number of average readings.
-#define NTC_DEFAULT_AVERAGE_READINGS_NUMBER 10
-// Default delay time of average readings.
-#define NTC_DEFAULT_AVERAGE_DELAY_TIME 1
-
 class AverageThermistor final : public Thermistor {
 
   private:
+    // Default number of average readings.
+    static const int DEFAULT_READINGS_NUMBER = 10;
+    // Default delay time of average readings.
+    static const int DEFAULT_DELAY_TIME = 1;
+
     Thermistor* origin;
     int readingsNumber;
     int delayTime;
@@ -64,8 +67,8 @@ class AverageThermistor final : public Thermistor {
     */
     AverageThermistor(
       Thermistor* origin,
-      int readingsNumber = NTC_DEFAULT_AVERAGE_READINGS_NUMBER,
-      int delayTimeInMillis = NTC_DEFAULT_AVERAGE_DELAY_TIME
+      int readingsNumber = DEFAULT_READINGS_NUMBER,
+      int delayTimeInMillis = DEFAULT_DELAY_TIME
     );
 
     /**

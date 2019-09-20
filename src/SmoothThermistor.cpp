@@ -50,5 +50,5 @@ inline double SmoothThermistor::smoothe(
   https://www.arduino.cc/reference/en/language/functions/math/max/
 */
 inline void SmoothThermistor::setSmoothingFactor(const int smoothingFactor) {
-  this->smoothingFactor = max(smoothingFactor, NTC_MIN_SMOOTHING_FACTOR);
+  this->smoothingFactor = max(smoothingFactor, MIN_SMOOTHING_FACTOR);
 }
