@@ -6,6 +6,9 @@
 	v.2.0.0
 	- created
 
+	v.2.0.3
+	- added virtual destructor
+
 	https://github.com/YuriiSalimov/NTC_Thermistor
 
 	Created by Yurii Salimov, May, 2019.
@@ -23,6 +26,12 @@
 class Thermistor {
 
 	public:
+		/**
+      Destructor
+      Deletes Thermistor instance.
+    */
+    virtual ~SmoothThermistor() {};
+
 		/**
 			Reads a temperature in Celsius from the thermistor.
 
