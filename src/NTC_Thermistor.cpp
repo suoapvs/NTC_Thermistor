@@ -20,9 +20,6 @@ NTC_Thermistor::NTC_Thermistor(
 	this->adcResolution = max(adcResolution, 0);
 }
 
-NTC_Thermistor::~NTC_Thermistor() {
-}
-
 /**
 	Reads and returns a temperature in Celsius.
 	Reads the temperature in Kelvin,
