@@ -26,17 +26,12 @@
 class Thermistor {
 
 	public:
-    /**
-      Destructor
-      Deletes the base Thermistor instance.
-    */
-    virtual ~Thermistor();
   
 		/**
-      Destructor
-      Deletes Thermistor instance.
-    */
-    virtual ~Thermistor() {};
+			Destructor
+			Deletes Thermistor instance.
+		*/
+		virtual ~Thermistor() {};
 
 		/**
 			Reads a temperature in Celsius from the thermistor.
