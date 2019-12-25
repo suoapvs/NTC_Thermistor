@@ -10,8 +10,8 @@ AverageThermistor::AverageThermistor(
   const int delayTimeInMillis
 ) {
   this->origin = origin;
-  this->readingsNumber = validate(readingsNumber, NTC_DEFAULT_AVERAGE_READINGS_NUMBER);
-  this->delayTime = validate(delayTimeInMillis, NTC_DEFAULT_AVERAGE_DELAY_TIME);
+  this->readingsNumber = validate(readingsNumber, DEFAULT_READINGS_NUMBER);
+  this->delayTime = validate(delayTimeInMillis, DEFAULT_DELAY_TIME);
 }
 
 AverageThermistor::~AverageThermistor() {

@@ -42,12 +42,12 @@
 
 #include "Thermistor.h"
 
-// Analog resolution for Arduino board
-#define ARDUINO_ADC_RESOLUTION 1023
-
 class NTC_Thermistor : public Thermistor {
 
   private:
+    // Default analog resolution for Arduino board
+    static const int DEFAULT_ADC_RESOLUTION = 1023;
+
     int pin; // an analog port.
     double referenceResistance;
     double nominalResistance;
@@ -72,7 +72,7 @@ class NTC_Thermistor : public Thermistor {
       double nominalResistance,
       double nominalTemperatureCelsius,
       double bValue,
-      int adcResolution = ARDUINO_ADC_RESOLUTION
+      int adcResolution = DEFAULT_ADC_RESOLUTION
     );
 
     /**
