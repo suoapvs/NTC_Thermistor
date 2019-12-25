@@ -76,12 +76,6 @@ class NTC_Thermistor : public Thermistor {
     );
 
     /**
-      Destructor
-      Deletes the base NTC_Thermistor instance.
-    */
-    virtual ~NTC_Thermistor();
-
-    /**
       Reads a temperature in Celsius from the thermistor.
 
       @return temperature in degree Celsius
