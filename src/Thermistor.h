@@ -30,7 +30,7 @@ class Thermistor {
       Destructor
       Deletes Thermistor instance.
     */
-    virtual ~SmoothThermistor() {};
+    virtual ~Thermistor() {};
 
 		/**
 			Reads a temperature in Celsius from the thermistor.
