@@ -14,7 +14,7 @@ Provides a temperature reading in Celsius, Fahrenheit and Kelvin.
 
 ## Circuit Diagram
 
-Connect to the analog side of an Arduino Uno. Run 5V through the thermistor, then a pull-down resistor (R0), and into ground. To measure the temperature pull a line off the junction of the thermistor and the resistor, and into an analog pin (A1 here).
+Connect to the analog side of an Arduino Uno. Run GND through the thermistor, then a pull-down resistor (R0), and into 5V. To measure the temperature pull a line off the junction of the thermistor and the resistor, and into an analog pin (A1 here).
 
 ![Diagram](Diagram.png)
 
