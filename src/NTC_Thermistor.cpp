@@ -1,6 +1,12 @@
 /**
 	Created by Yurii Salimov, February, 2018.
 	Released into the public domain.
+
+	Modified by Bob Wolff - 2024 - adding in a derived class for
+	ESP32 which utilizes the ADC reading of millivolts instead of
+	raw ADC count values. This is because in some of the ESP32
+	chips, only the millivolt reading is a calibrated result.
+	To do this, the user's Vref much be input in the constructor.
 */
 #include "NTC_Thermistor.h"
 
@@ -88,4 +94,33 @@ inline double NTC_Thermistor::celsiusToFahrenheit(const double celsius) {
 */
 inline double NTC_Thermistor::kelvinsToFahrenheit(const double kelvins) {
 	return celsiusToFahrenheit(kelvinsToCelsius(kelvins));
+}
+
+/***
+ * @brief Slight derivation which reads the 'voltage' (which is
+ * really in raw ADC count values) indirectly through reading
+ * the ADC's millivolt reading. This is due to a calibration
+ * which happens for the millivolt reading that gives a much
+ * more accurate reading than raw 'analogRead()'
+ */
+NTC_Thermistor_ESP32::NTC_Thermistor_ESP32(
+	const int pin,
+	const double referenceResistance,
+	const double nominalResistance,
+	const double nominalTemperatureCelsius,
+	const double bValue,
+	const uint16_t adcVref,
+	const int adcResolution
+) : NTC_Thermistor(pin, referenceResistance, nominalResistance, nominalTemperatureCelsius, bValue, adcResolution)
+{
+	this->vref_mv = adcVref;
+}
+
+/***
+ * @brief read the calibrated version of the ADC count value indirectly
+ * by reading the millivolts value (which is calibrated by Espressif)
+ * and back-calculating the raw ADC count value.
+ */
+double NTC_Thermistor_ESP32::readVoltage() {
+	return (double)analogReadMilliVolts(this->pin) / (double)this->vref_mv * this->adcResolution;
 }

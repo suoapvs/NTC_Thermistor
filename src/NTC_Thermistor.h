@@ -48,6 +48,7 @@ class NTC_Thermistor : public Thermistor {
     // Default analog resolution for Arduino board
     static const int DEFAULT_ADC_RESOLUTION = 1023;
 
+  protected:
     int pin; // an analog port.
     double referenceResistance;
     double nominalResistance;
@@ -96,7 +97,7 @@ class NTC_Thermistor : public Thermistor {
     */
     double readFahrenheit() override;
 
-  private:
+  protected:
     /**
       Resistance to Kelvin conversion:
       1/K = 1/K0 + ln(R/R0)/B;
@@ -130,7 +131,7 @@ class NTC_Thermistor : public Thermistor {
 
       @return thermistor voltage in analog range (0...1023, for Arduino).
     */
-    inline double readVoltage();
+    virtual double readVoltage();
 
     /**
       Celsius to Kelvin conversion:
@@ -167,6 +168,43 @@ class NTC_Thermistor : public Thermistor {
       @return temperature in degree Fahrenheit
     */
     inline double kelvinsToFahrenheit(double kelvins);
+};
+
+class NTC_Thermistor_ESP32 : public NTC_Thermistor {
+  public:
+    /**
+      Constructor
+
+      @param pin - an analog port number to be attached to the thermistor
+      @param referenceResistance - reference resistance
+      @param nominalResistance - nominal resistance at a nominal temperature
+      @param nominalTemperature - nominal temperature in Celsius
+      @param bValue - b-value of a thermistor
+      @param adcVref - The ADC's reference voltage (likely 3300 for 3.3volts)
+      @param adcResolution - ADC resolution (default 4095, for ESP32)
+    */
+    NTC_Thermistor_ESP32(
+      int pin,
+      double referenceResistance,
+      double nominalResistance,
+      double nominalTemperatureCelsius,
+      double bValue,
+      uint16_t adcVref,
+      int adcResolution = DEFAULT_ESP32_ADC_RESOLUTION
+    );
+  protected:
+    /**
+      @brief read the calibrated version of the ADC count value indirectly
+      by reading the millivolts value (which is calibrated by Espressif)
+      and back-calculating the raw ADC count value.
+
+      @return thermistor voltage in analog range (0...4095, for ESP32).
+    */
+    virtual double readVoltage();
+  private:
+    // Default analog resolution for Arduino board
+    static const int DEFAULT_ESP32_ADC_RESOLUTION = 4095;
+    uint16_t vref_mv;
 };
 
 #endif
