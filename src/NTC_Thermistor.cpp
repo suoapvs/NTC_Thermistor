@@ -96,6 +96,7 @@ inline double NTC_Thermistor::kelvinsToFahrenheit(const double kelvins) {
 	return celsiusToFahrenheit(kelvinsToCelsius(kelvins));
 }
 
+#if defined(ESP32)
 /***
  * @brief Slight derivation which reads the 'voltage' (which is
  * really in raw ADC count values) indirectly through reading
@@ -124,3 +125,4 @@ NTC_Thermistor_ESP32::NTC_Thermistor_ESP32(
 double NTC_Thermistor_ESP32::readVoltage() {
 	return (double)analogReadMilliVolts(this->pin) / (double)this->vref_mv * this->adcResolution;
 }
+#endif

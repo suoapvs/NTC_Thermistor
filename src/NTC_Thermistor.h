@@ -170,6 +170,7 @@ class NTC_Thermistor : public Thermistor {
     inline double kelvinsToFahrenheit(double kelvins);
 };
 
+#if defined(ESP32)
 class NTC_Thermistor_ESP32 : public NTC_Thermistor {
   public:
     /**
@@ -206,5 +207,5 @@ class NTC_Thermistor_ESP32 : public NTC_Thermistor {
     static const int DEFAULT_ESP32_ADC_RESOLUTION = 4095;
     uint16_t vref_mv;
 };
-
+#endif // ESP32
 #endif
