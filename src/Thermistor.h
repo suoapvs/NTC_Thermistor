@@ -9,7 +9,7 @@
 	v.2.0.3
 	- added virtual destructor
 
-	https://github.com/YuriiSalimov/NTC_Thermistor
+	https://github.com/suoapvs/NTC_Thermistor
 
 	Created by Yurii Salimov, May, 2019.
 	Released into the public domain.

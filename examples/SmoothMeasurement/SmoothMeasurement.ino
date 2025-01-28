@@ -4,7 +4,7 @@
   Reads a temperature from the NTC 3950 thermistor,
   smooth and displays it in the default Serial.
 
-  https://github.com/YuriiSalimov/NTC_Thermistor
+  https://github.com/suoapvs/NTC_Thermistor
 
   Created by Yurii Salimov, May, 2019.
   Released into the public domain.
