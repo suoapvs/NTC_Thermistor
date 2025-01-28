@@ -32,7 +32,7 @@
   - optimized constructor;
   - updated documentation.
 
-  https://github.com/YuriiSalimov/NTC_Thermistor
+  https://github.com/suoapvs/NTC_Thermistor
 
   Created by Yurii Salimov, February, 2018.
   Released into the public domain.

@@ -6,7 +6,7 @@
 
   ESP32 devices are 12-bit ADC devices so the defuault is 4095 here.
 
-  https://github.com/bobwolff68/NTC_Thermistor
+  https://github.com/suoapvs/NTC_Thermistor
 
   Created by Bob Wolff from Yuri's original - 2024
   Released into the public domain.
