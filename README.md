@@ -15,7 +15,7 @@ Provides a temperature reading in Celsius, Fahrenheit and Kelvin.
 
 ## Installation
 
-1. [Download](https://github.com/bobwolff68/NTC_Thermistor/releases) the Latest release from gitHub.
+1. [Download](https://github.com/suoapvs/NTC_Thermistor/releases) the Latest release from gitHub.
 2. Unzip and modify the Folder name to "NTC_Thermistor" (Remove the '-version')
 3. Paste the modified folder on your Library folder (On your `libraries` folder inside Sketchbooks or Arduino software).
 4. Restart the Arduino IDE.
